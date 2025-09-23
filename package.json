@@ -1,11 +1,12 @@
 {
   "name": "proyecto_express_backend_guerrerodaniel_abriljuan",
   "version": "1.0.0",
+  "type":"module",
   "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm app.js"
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
