@@ -39,13 +39,13 @@ async function login(req,res) {
                 const token = await createToken(user)
                 return token
             } else {
-                res.status("Contraseña incorrecta: "+400)
+                res.status(400).json({error : "Contraseña incorrecta"})
             }
         } else {
-            res.status("Usuario no encontrado: "+400)
+            res.status(400).json({error: "Usuario no encontrado"})
         }
     } else {
-        res.status("Data del Usuario incompleta: "+400)
+        res.status(400).json({error: "Datos incompletos"})
     }
 }
 
