@@ -12,10 +12,9 @@ async function createToken(data) {
 
 async function register(req,res) {
     const newUser = {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        role: req.body.role
+        usuario: req.body.usuario,
+        contrasena: req.body.contrasena,
+        rol: req.body.rol
     }
     if (newUser.name && newUser.email && newUser.password && newUser.role) {
         const db = await connect()
