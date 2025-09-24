@@ -1,6 +1,6 @@
 import express from "express"
 import dotenv from "dotenv"
-import router from "./auth/routes"
+import router from "./auth/routes.js"
 dotenv.config()
 const app = express();
 app.use(passport.initialize());
