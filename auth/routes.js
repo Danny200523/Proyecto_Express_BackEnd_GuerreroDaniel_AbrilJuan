@@ -1,6 +1,6 @@
-import Router from "express"
 import {register,login} from './jwt.js'
-const router = Router()
+import { Router } from "express";
+const router = Router();
 
 router.put('/login',async (req,res)=>{
     try {
@@ -19,3 +19,5 @@ router.post('/register',async (req,res)=>{
         res.status(400).json({ error: err.message });
       }
 })
+
+export default router;

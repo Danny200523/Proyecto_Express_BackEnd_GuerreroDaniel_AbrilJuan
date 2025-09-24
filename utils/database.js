@@ -8,7 +8,7 @@ const namedb = process.env.DBName
 let client;
 let db;
 
-async function connect(){
+export async function connect(){
   try {
     if (db) return db;
 
@@ -22,7 +22,7 @@ async function connect(){
   }
 }
 
-async function disconnect() {
+export async function disconnect() {
   try {
     if (client) {
       await client.close();
@@ -35,5 +35,3 @@ async function disconnect() {
     throw err;
   }
 }
-
-module.exports = {connect, disconnect}
