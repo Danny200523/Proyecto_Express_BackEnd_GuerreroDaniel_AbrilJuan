@@ -4,7 +4,7 @@ export class modelUser{
     constructor(usuario, contrasena){
         this.usuario = usuario;
         this.contrasena = contrasena;
-        this.admin = admin
+        this.admin = this.admin
     }
 }
 
