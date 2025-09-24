@@ -1,10 +1,10 @@
 import {connect} from '../utils/database.js'
 
-class modelUser{
+export class modelUser{
     constructor(usuario, contrasena){
         this.usuario = usuario;
         this.contrasena = contrasena;
-        this.rol = rol
+        this.admin = admin
     }
 }
 

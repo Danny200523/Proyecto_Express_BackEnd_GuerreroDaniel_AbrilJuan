@@ -1,7 +1,10 @@
 import jwt from "jsonwebtoken";
 import {connect} from '../utils/database.js';
 import dotenv from "dotenv";
+import {modelUser} from '../Models/userModel.js';
+const JWT_SECRET = process.env.JWT_SECRET || 'secret'
 dotenv.config();
+const newUser = new modelUser();
 
 async function createToken(data) {
     const to_encode = data.copy()
@@ -14,7 +17,7 @@ async function register(req,res) {
     const newUser = {
         usuario: req.body.usuario,
         contrasena: req.body.contrasena,
-        rol: req.body.rol
+        admin: req.body.admin
     }
     if (newUser.name && newUser.email && newUser.password && newUser.role) {
         const db = await connect()
