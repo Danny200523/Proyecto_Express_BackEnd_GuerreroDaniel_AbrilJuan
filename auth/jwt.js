@@ -1,17 +1,22 @@
 import jwt from "jsonwebtoken";
-import {connect} from '../utils/database.js';
+import {connect, disconnect} from '../utils/database.js';
 import dotenv from "dotenv";
-import {modelUser} from '../Models/userModel.js';
+import { JWT_ALG, JWT_EXPIRE_STR} from './config.js';
 const JWT_SECRET = process.env.JWT_SECRET || 'secret'
 dotenv.config();
-const newUser = new modelUser();
 
-async function createToken(data) {
-    const to_encode = data.copy()
-    const expire = new Date(now.getUTCHours()) + (JWT_EXPIRE)
-    to_encode.update({"exp": expire})
-    return jwt.sign(to_encode, JWT_SECRET, algorithm=JWT_ALG, expireIn=JWT_EXPIRE)
-}
+function createToken(user) {
+    const payload = {
+      sub: user._id?.toString(),
+      usuario: user.usuario,
+      admin: !!user.admin,
+    };
+    return jwt.sign(payload, JWT_SECRET, {
+      algorithm: JWT_ALG,      // "HS256"
+      expiresIn: JWT_EXPIRE_STR // "1h" o 3600
+    });
+  }
+
 
 async function register(req,res) {
     const newUser = {
@@ -19,27 +24,32 @@ async function register(req,res) {
         contrasena: req.body.contrasena,
         admin: req.body.admin
     }
-    if (newUser.name && newUser.email && newUser.password && newUser.role) {
-        const db = await connect()
-        const user = await db.collection('Usuarios').insertOne(newUser)
-        res.send(user)
+    if (newUser.usuario) {
+        if (newUser.contrasena){
+            const db = await connect()
+            const user = await db.collection('USUARIOS').insertOne(newUser)
+            res.status(200).json({message: "Usuario creado correctamente",user})
+            disconnect();
+        }else{
+            res.status(400).json({error: "data contrasena no rellena"})
+        }
     } else {
-        res.status("Data del Usuario incompleta: "+400)
+        res.status(400).json({error: "data usuario no rellena"})
     }
 }
 
 async function login(req,res) {
     const userin = {
-        email: req.body.email,
-        password: req.body.password
+        usuario: req.body.usuario,
+        contrasena: req.body.contrasena
     }
-    if (userin.email && userin.password) {
+    if (userin.usuario && userin.contrasena) {
         const db = await connect()
-        const user = await db.collection('Usuarios').findOne({email: user.email})
+        const user = await db.collection('USUARIOS').findOne({usuario: userin.usuario})
         if (user) {
-            if (user.password == userin.password) {
-                const token = await createToken(user)
-                return token
+            if (user.contrasena === userin.contrasena) {
+                const token = createToken(user)
+                res.status(200).json({token})
             } else {
                 res.status(400).json({error : "Contraseña incorrecta"})
             }

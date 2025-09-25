@@ -1,5 +1,6 @@
 import {connect} from '../utils/database.js'
 
+
 export class modelUser{
     constructor(usuario, contrasena){
         this.usuario = usuario;

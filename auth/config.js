@@ -1,9 +1,9 @@
 import dotenv from "dotenv"
 dotenv.config()
 
-const JWT_SECRET = process.env.JWT_SECRET || "defaultsecret";
-const JWT_ALG = process.env.JWT_ALG || "HS256";
-const JWT_EXPIRE_STR = process.env.JWT_EXPIRE || "1h";
+export const JWT_SECRET = process.env.JWT_SECRET || "defaultsecret";
+export const JWT_ALG = process.env.JWT_ALG || "HS256";
+export const JWT_EXPIRE_STR = process.env.JWT_EXPIRE || "1h";
 
 function parseExpire(expireStr) {
     if (expireStr.endsWith('h')) {
@@ -20,8 +20,3 @@ function parseExpire(expireStr) {
 
 const JWT_EXPIRE = parseExpire(JWT_EXPIRE_STR);
 
-module.exports = {
-    JWT_SECRET,
-    JWT_ALG,
-    JWT_EXPIRE
-};

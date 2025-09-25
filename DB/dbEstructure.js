@@ -36,7 +36,6 @@ db.createCollection("USUARIOS", {
           genres: {
             oneOf: [
               { bsonType: "string", minLength: 1 },
-              { bsonType: "array", minItems: 1, items: { bsonType: "string", minLength: 1 } }
             ]
           }
         }
@@ -110,4 +109,6 @@ db.createCollection("USUARIOS", {
     { id_usuario: 1, id_reseña: 1 },
     { unique: true }
   );
+  
+
   
