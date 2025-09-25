@@ -20,11 +20,11 @@ routerMovie.get('/genre-Pel/:genre',async (req,res)=>{
     await pelModel.getMovieByGenre(req.params.genre,res);
 })
 
-routerMovie.put('/update-Pel:id',requireAdmin,async (req,res)=>{
+routerMovie.put('/update-Pel/:id',requireAdmin,async (req,res)=>{
     await pelModel.updateMovie(req,id=req.params.id,res);
 })
 
-routerMovie.delete('/delete-Pel:id',requireAdmin,async (req,res)=>{
+routerMovie.delete('/delete-Pel/:id',requireAdmin,async (req,res)=>{
     await pelModel.deleteMovie(req,req.params.id,res);
 })
 
