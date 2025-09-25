@@ -18,13 +18,13 @@ export class controllerMovie{
         console.log(result)
     }
 
-    async updatePel(id,res){
-        const result = await mov.updateMovie(id,res)
+    async updatePel(req,id,res){
+        const result = await mov.updateMovie(req,id,res)
         console.log(result)
     }
 
-    async deletePel(req,id,res){
-        const result = await mov.deleteMovie(req,id,res)
+    async deletePel(id,res){
+        const result = await mov.deleteMovie(id,res)
         console.log(result)
     }
 
