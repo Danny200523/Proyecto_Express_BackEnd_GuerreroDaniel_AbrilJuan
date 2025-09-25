@@ -2,12 +2,12 @@
   "name": "proyecto_express_backend_guerrerodaniel_abriljuan",
   "version": "1.0.0",
   "description": "",
-  "type":"module",
+  "type": "module",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
-    "comenzar":"node app.js"
+    "comenzar": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
+    "express-oas-generator": "^1.0.48",
     "express-rate-limit": "^8.1.0",
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
