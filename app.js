@@ -4,7 +4,7 @@ import routerAuth from "./auth/routes.js"
 import passport from "passport"
 import routerMovie from "./Routes/peliculaRoutes.js"
 import swaggerUi from 'swagger-ui-express';
-import swaggerFile from './swagger-output.json' assert { type: 'json' };
+import swaggerFile from './swagger-output.json' with { type: 'json' };
 
 dotenv.config()
 const app = express();
