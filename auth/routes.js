@@ -1,8 +1,8 @@
 import {register,login} from './jwt.js'
 import { Router } from "express";
-const router = Router();
+const routerAuth = Router();
 
-router.post('/login',async (req,res)=>{
+routerAuth.post('/login',async (req,res)=>{
     try {
         const token = login(req,res)
     } catch (e) {
@@ -10,7 +10,7 @@ router.post('/login',async (req,res)=>{
     }
 })
 
-router.post('/register',async (req,res)=>{
+routerAuth.post('/register',async (req,res)=>{
     try {
         await register(req, res);
       } catch (err) {
@@ -18,4 +18,4 @@ router.post('/register',async (req,res)=>{
       }
 })
 
-export default router;
+export default routerAuth;
