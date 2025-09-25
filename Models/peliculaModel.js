@@ -24,21 +24,21 @@ export class pelicula{
         }
         const result = await db.collection('PELICULAS').insertOne(newMovie)
         await disconnect()
-        return res.status(200).json({message:"Pelicula creada correctamente"})
+        return result
     }
 
-    async getAllMovies(res){
+    async getAllMovies(req, res){
         const db = await connect()
         const result = await db.collection('PELICULAS').find().toArray()
         await disconnect()
-        return res.status(200).json(result)
+        return result
     }
 
     async getMovieByGenre(genre,res){
         const db = await connect()
         const result = await db.collection('PELICULAS').find({genres:genre}).toArray()
         await disconnect()
-        return res.status(200).json(result)
+        return result
     }
 
     async updateMovie(req,id,res){
@@ -54,20 +54,20 @@ export class pelicula{
         const db = await connect()
         const result = await db.collection('PELICULAS').updateOne({_id:id},{$set:upData})
         await disconnect()
-        return res.status(200).json({message:"Pelicula actualizada correctamente",data: result})
+        return result
     }
 
     async deleteMovie(id,res){
         const db = await connect()
         const result = await db.collection('PELICULAS').deleteOne({_id:id})
         await disconnect()
-        return res.status(200).json({message:"Pelicula eliminada correctamente",data: result})
+        return result
     }
 
     async getMoviesPop(req,res){
         const db = await connect()
         const result = await db.collection('PELICULAS').find().sort({popularity:-1}).toArray()
         await disconnect()
-        return res.status(200).json(result)
+        return result
     }
 }
