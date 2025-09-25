@@ -35,7 +35,8 @@ async function register(req,res) {
                 res.status(200).json({message: "Usuario creado correctamente",user})
                 disconnect();
             } catch (error) {
-                res.status(500).json({error: "Error al hashear la contraseña"})
+                console.error('Hashing error:', error);
+                res.status(500).json({error: "Error al hashear la contraseña", details: error.message})
             }
         }else{
             res.status(400).json({error: "data contrasena no rellena"})
