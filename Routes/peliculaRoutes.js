@@ -15,23 +15,48 @@ routerMovie.post('/new-Pel',requireAdmin,async (req,res)=>{
 })
 
 routerMovie.get('/all-Pel',async (req,res)=>{
-    await pel.getMoviesA(req,res);
+    try {
+        const result = await pel.getMoviesA(req,res);
+        return res.status(200).json(result)
+    } catch (error) {
+        next(error)
+    }
 })
 
 routerMovie.get('/genre-Pel/:genre',async (req,res)=>{
-    await pel.getMoviesG(req.params.genre,res);
+    try {
+        const result = await pel.getMoviesG(req.params.genre,res);
+        return res.status(200).json(result)
+    } catch (error) {
+        next(error)
+    }
 })
 
 routerMovie.put('/update-Pel/:id',requireAdmin,async (req,res)=>{
-    await pel.updatePel(req,id=req.params.id,res);
+    try {
+        const result = await pel.updatePel(req,id=req.params.id,res);
+        return res.status(200).json(result)
+    } catch (error) {
+        next(error)
+    }
 })
 
 routerMovie.delete('/delete-Pel/:id',requireAdmin,async (req,res)=>{
-    await pel.deletePel(req,req.params.id,res);
+    try {
+        const result = await pel.deletePel(req,req.params.id,res);
+        return res.status(200).json(result)
+    } catch (error) {
+        next(error)
+    }
 })
 
 routerMovie.get('/pel-popu',async (req,res)=>{
-    await pel.getMoviesP(req,res)
+    try {
+        const result = await pel.getMoviesP(req,res)
+        return res.status(200).json(result)
+    } catch (error) {
+        next(error)
+    }
 })
 
 export default routerMovie;
