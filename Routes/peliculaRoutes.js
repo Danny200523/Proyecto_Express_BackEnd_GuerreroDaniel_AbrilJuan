@@ -1,7 +1,7 @@
 import {Router} from "express";
 import {requireAdmin} from "../utils/adminRequire.js"
 import {controllerMovie} from "../Controllers/peliculaController.js"
-import {pelicula} from "../Models/peliculaModel.js"
+
 
 const pel = new controllerMovie()
 
