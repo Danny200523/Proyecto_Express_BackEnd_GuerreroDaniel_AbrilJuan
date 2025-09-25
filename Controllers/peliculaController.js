@@ -1,0 +1,20 @@
+import {pelicula} from "../Models/peliculaModel.js"
+
+const mov = new pelicula()
+
+export class controllerMovie{
+    async createPel(req,res){
+        const result = await mov.createMovie(req,res)
+        console.log(result)
+    }
+
+    async getMoviesA(req,res){
+        const result = await mov.getAllMovies(res)
+        console.log(result)
+    }
+
+    async getMoviesG(genre,res){
+        const result = await mov.getMovieByGenre(genre,res)
+        console.log(result)
+    }
+}
