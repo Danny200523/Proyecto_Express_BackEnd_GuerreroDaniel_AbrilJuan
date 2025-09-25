@@ -1,7 +1,6 @@
 import express from "express"
 import dotenv from "dotenv"
 import routerAuth from "./auth/routes.js"
-import routerMovie from "./Routes/peliculaRoutes.js"
 import passport from "passport"
 import routerMovie from "./Routes/peliculaRoutes.js"
 import swaggerUi from 'swagger-ui-express';
