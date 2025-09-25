@@ -23,7 +23,11 @@ router.put('./update-Pel:id',requireAdmin,async (req,res)=>{
 })
 
 router.delete('./delete-Pel:id',requireAdmin,async (req,res)=>{
-    await pel.deletePel(req.params.id,res);
+    await pel.deletePel(req,req.params.id,res);
+})
+
+router.get('/pel-popu',async (req,res)=>{
+    await pel.getMoviesPop(req,res)
 })
 
 export default router;

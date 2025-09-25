@@ -17,4 +17,19 @@ export class controllerMovie{
         const result = await mov.getMovieByGenre(genre,res)
         console.log(result)
     }
+
+    async updatePel(id,res){
+        const result = await mov.updateMovie(id,res)
+        console.log(result)
+    }
+
+    async deletePel(req,id,res){
+        const result = await mov.deleteMovie(req,id,res)
+        console.log(result)
+    }
+
+    async getMoviesPop(req,res){
+        const result = await mov.getMoviesPop(req,res)
+        console.log(result)
+    }
 }
