@@ -13,8 +13,8 @@ router.put('/login',async (req,res)=>{
 
 router.post('/register',async (req,res)=>{
     try {
-        const result = await register(req, res);
-        res.status(201).json(result);
+        await register(req, res);
+        res.status(201).json({ message: "Usuario creado exitosamente"})
       } catch (err) {
         res.status(400).json({ error: err.message });
       }
