@@ -4,7 +4,7 @@ const routerAuth = Router();
 
 routerAuth.post('/login',async (req,res)=>{
     try {
-        const token = login(req,res)
+        await login(req,res)
     } catch (e) {
       res.status(401).json({ error: "Credenciales inválidas" });
     }
