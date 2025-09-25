@@ -43,7 +43,7 @@ routerMovie.put('/update-Pel/:id',requireAdmin,async (req,res,next)=>{
 
 routerMovie.delete('/delete-Pel/:id',requireAdmin,async (req,res,next)=>{
     try {
-        const result = await pel.deletePel(req,req.params.id,res);
+        const result = await pel.deletePel(req.params.id);
         return res.status(200).json(result)
     } catch (error) {
         next(error)

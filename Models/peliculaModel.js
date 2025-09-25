@@ -57,7 +57,7 @@ export class pelicula{
         return result
     }
 
-    async deleteMovie(id,res){
+    async deleteMovie(id){
         const db = await connect()
         const result = await db.collection('PELICULAS').deleteOne({_id:id})
         await disconnect()

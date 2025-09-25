@@ -24,7 +24,7 @@ export class controllerMovie{
     }
 
     async deletePel(id,res){
-        const result = await mov.deleteMovie(id,res)
+        const result = await mov.deleteMovie(id)
         return result
     }
 
