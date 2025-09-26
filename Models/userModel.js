@@ -26,7 +26,7 @@ export class modelUser{
         return result
     }
     async getAllusers(){
-        const db = connect();
+        const db = await connect();
         const result = await db.collection('USUARIOS').find().toArray()
         await disconnect()
         return result
