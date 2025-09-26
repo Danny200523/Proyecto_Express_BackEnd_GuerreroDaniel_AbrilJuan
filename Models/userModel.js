@@ -9,25 +9,25 @@ export class modelUser{
     }
     async findUserByUsuario(id){
         const db = await connect();
-        const result = db.collection('USUARIOS').findOne({_id:id});
+        const result = await db.collection('USUARIOS').findOne({_id:id});
         await disconnect()
         return result;
     }
     async updateUser(id,usuario,contrasena){
         const db = await connect();
-        const result = db.collection('USUARIOS').updateOne({_id:id},{$set:{usuario:usuario,contrasena:contrasena}});
+        const result = await db.collection('USUARIOS').updateOne({_id:id},{$set:{usuario:usuario,contrasena:contrasena}});
         await disconnect()
         return result;
     }
     async deleteUser(id){
         const db = await connect();
-        const result = db.collection('USUARIOS').deleteOne({_id:id})
+        const result = await db.collection('USUARIOS').deleteOne({_id:id})
         await disconnect()
         return result
     }
     async getAllusers(){
         const db = connect();
-        const result = db.collection('USUARIOS').find().toArray()
+        const result = await db.collection('USUARIOS').find().toArray()
         await disconnect()
         return result
     }
