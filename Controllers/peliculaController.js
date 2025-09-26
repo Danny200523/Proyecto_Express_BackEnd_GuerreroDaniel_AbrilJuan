@@ -3,8 +3,8 @@ import {pelicula} from "../Models/peliculaModel.js"
 const mov = new pelicula()
 
 export class controllerMovie{
-    async createPel(req,res){
-        const result = await mov.createMovie(req,res)
+    async createPel(req){
+        const result = await mov.createMovie(req)
         return result
     }
 

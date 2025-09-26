@@ -5,18 +5,13 @@ export class resenaController{
         this.resena = new resena()
     }
     
-    async createResena(req){
-        const result = await this.resena.createResena(req)
+    async createResena(id_usuario,id_pelicula,comentario,calificacion){
+        const result = await this.resena.createResena(id_usuario,id_pelicula,comentario,calificacion)
         return result
     }
 
     async getAllResenas(){
         const result = await this.resena.getAllResenas()
-        return result
-    }
-
-    async getResenaByUser(id){
-        const result = await this.resena.getResenaById(id)
         return result
     }
 

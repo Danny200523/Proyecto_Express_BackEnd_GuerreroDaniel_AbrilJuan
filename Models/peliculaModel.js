@@ -11,7 +11,7 @@ export class pelicula{
         this.genres=genres;
     }
 
-    async createMovie(data,res){
+    async createMovie(data){
         const db = await connect()
         const newMovie = {
             title: data.title,

@@ -9,7 +9,7 @@ const routerMovie = Router();
 
 routerMovie.post('/new-Pel',requireAdmin,async (req,res,next)=>{
     try {
-        const result = await pel.createPel(req,res);
+        const result = await pel.createPel(req);
         return res.status(200).json(result)
     } catch (error) { next(error) }
 })

@@ -1,4 +1,4 @@
-import { connect,disconnect } from "../utils/database";
+import { connect,disconnect } from "../utils/database.js";
 
 export class resena{
     constructor(id_usuario,id_pelicula,comentario,calificacion){
@@ -28,12 +28,7 @@ export class resena{
         await disconnect()
         return result
     }
-    async getByUser(id_usuario){
-        const db = await connect()
-        const result = await db.collection('RESENAS').find({id_usuario:id_usuario}).toArray()
-        await disconnect()
-        return result
-    }
+
     async getByMovie(id_pelicula){
         const db = await connect()
         const result = await db.collection('RESENAS').find({id_pelicula:id_pelicula}).toArray()
