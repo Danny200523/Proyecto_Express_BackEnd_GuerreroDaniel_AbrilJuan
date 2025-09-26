@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { requireAdmin } from "../utils/adminRequire";
-import { getCurrentUser } from "../auth/deps";
-import { userController } from "../Controllers/userController";
+import { requireAdmin } from "../utils/adminRequire.js";
+import { getCurrentUser } from "../auth/deps.js";
+import { userController } from "../Controllers/userController.js";
 
 const user = new userController();
 routerUser = Router()
