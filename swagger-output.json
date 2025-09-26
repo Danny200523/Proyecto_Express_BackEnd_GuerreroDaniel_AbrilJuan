@@ -437,64 +437,54 @@
     "/reacciones/create": {
       "post": {
         "tags": ["Reacciones"],
-        "summary": "Crear reacción (like/dislike)",
-        "description": "Crea un documento en REACCIONES con id_usuario, id_pelicula, like y/o dislike.",
+        "summary": "Crear reacción (usuario autenticado)",
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
           "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReaccionCreate" } } }
         },
         "responses": {
-          "200": {
-            "description": "Resultado de inserción",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MongoWriteResult" } } }
-          }
+          "200": { "description": "Resultado de inserción", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MongoWriteResult" } } } },
+          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
     "/reacciones/list": {
       "get": {
         "tags": ["Reacciones"],
-        "summary": "Listar reacciones",
+        "summary": "Listar reacciones (usuario autenticado)",
+        "security": [{ "bearerAuth": [] }],
         "responses": {
-          "200": {
-            "description": "Array de reacciones",
-            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Reaccion" } } } }
-          }
+          "200": { "description": "Array de reacciones", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Reaccion" } } } } },
+          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
     "/reacciones/edit/{id}": {
       "put": {
         "tags": ["Reacciones"],
-        "summary": "Actualizar reacción por ID",
-        "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
-        ],
+        "summary": "Actualizar reacción por ID (usuario autenticado)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
         "requestBody": {
           "required": true,
           "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReaccionUpdate" } } }
         },
         "responses": {
-          "200": {
-            "description": "Resultado de la actualización",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MongoWriteResult" } } }
-          }
+          "200": { "description": "Resultado de la actualización", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MongoWriteResult" } } } },
+          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
     "/reacciones/delete/{id}": {
       "delete": {
         "tags": ["Reacciones"],
-        "summary": "Eliminar reacción por ID (admin)",
+        "summary": "Eliminar reacción por ID (admin requerido)",
         "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
-        ],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
         "responses": {
-          "200": {
-            "description": "Resultado de la eliminación",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MongoWriteResult" } } }
-          }
+          "200": { "description": "Resultado de la eliminación", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MongoWriteResult" } } } },
+          "401": { "description": "No autenticado o no autorizado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     }
