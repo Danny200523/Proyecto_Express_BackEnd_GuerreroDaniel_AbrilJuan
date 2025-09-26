@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Proyecto Express – Backend Películas",
+    "title": "Proyecto Express – API Películas",
     "version": "1.0.0",
     "description": "API para autenticación, gestión de películas, usuarios y reseñas."
   },
@@ -9,21 +9,35 @@
     { "url": "http://62.169.28.169" }
   ],
   "tags": [
+    { "name": "Health", "description": "Estado del servicio" },
     { "name": "Auth", "description": "Autenticación y emisión de tokens" },
     { "name": "Movies", "description": "Gestión y consulta de películas" },
-    { "name": "Users", "description": "Gestión de usuarios (endpoints de administración)" },
-    { "name": "Reviews", "description": "Gestión de reseñas de películas" }
+    { "name": "Users", "description": "Gestión de usuarios" },
+    { "name": "Reseñas", "description": "Rutas de reseñas (crear, listar, editar, eliminar)" }
   ],
   "components": {
     "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
+      "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
     },
     "schemas": {
-      "AuthLogin": {
+      "Error": {
+        "type": "object",
+        "properties": { "error": { "type": "string", "example": "Mensaje de error" } }
+      },
+      "HealthOk": {
+        "type": "object",
+        "properties": { "ok": { "type": "boolean", "example": true } }
+      },
+      "RegisterInput": {
+        "type": "object",
+        "required": ["usuario", "contrasena"],
+        "properties": {
+          "usuario": { "type": "string", "example": "dani@test.com" },
+          "contrasena": { "type": "string", "minLength": 8, "example": "MiPass123!" },
+          "admin": { "type": "boolean", "example": false }
+        }
+      },
+      "LoginInput": {
         "type": "object",
         "required": ["usuario", "contrasena"],
         "properties": {
@@ -31,7 +45,7 @@
           "contrasena": { "type": "string", "example": "123456" }
         }
       },
-      "AuthLoginResponse": {
+      "AuthToken": {
         "type": "object",
         "properties": {
           "token": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }
@@ -59,40 +73,38 @@
           "title": { "type": "string", "example": "Castle in the Sky" },
           "summary": { "type": "string", "example": "Aventura fantástica..." },
           "year": { "type": "integer", "example": 1986 },
-          "popularity": { "type": "integer", "example": 87 },
+          "popularity": { "type": "number", "example": 87 },
           "poster": { "type": "string", "example": "https://image.tmdb.org/..." },
           "backdrop": { "type": "string", "example": "https://image.tmdb.org/..." },
-          "genres": { "type": "string", "example": "animation, adventure" },
-          "rating": { "type": "number", "example": 4.4 },
-          "total_reviews": { "type": "integer", "example": 120 }
+          "genres": {
+            "oneOf": [
+              { "type": "string", "example": "animation, adventure" },
+              { "type": "array", "items": { "type": "string" } }
+            ]
+          },
+          "rating": { "type": "number", "example": 4.4, "nullable": true },
+          "total_reviews": { "type": "integer", "example": 120, "nullable": true }
         }
       },
-      "MovieCreate": {
+      "MovieInput": {
         "type": "object",
         "required": ["title", "summary", "year"],
         "properties": {
-          "title": { "type": "string" },
-          "summary": { "type": "string" },
-          "year": { "type": "integer" },
-          "popularity": { "type": "integer" },
-          "poster": { "type": "string" },
-          "backdrop": { "type": "string" },
-          "genres": { "type": "string" }
+          "title": { "type": "string", "example": "Inception" },
+          "summary": { "type": "string", "example": "A thief who steals corporate secrets." },
+          "year": { "type": "integer", "example": 2010 },
+          "popularity": { "type": "number", "example": 8.7 },
+          "poster": { "type": "string", "example": "https://./poster.jpg" },
+          "backdrop": { "type": "string", "example": "https://./backdrop.jpg" },
+          "genres": {
+            "oneOf": [
+              { "type": "string", "example": "Sci-Fi, Thriller" },
+              { "type": "array", "items": { "type": "string" }, "example": ["Sci-Fi", "Thriller"] }
+            ]
+          }
         }
       },
-      "MovieUpdate": {
-        "type": "object",
-        "properties": {
-          "title": { "type": "string" },
-          "summary": { "type": "string" },
-          "year": { "type": "integer" },
-          "popularity": { "type": "integer" },
-          "poster": { "type": "string" },
-          "backdrop": { "type": "string" },
-          "genres": { "type": "string" }
-        }
-      },
-      "Review": {
+      "Resena": {
         "type": "object",
         "properties": {
           "_id": { "type": "string", "example": "68d53c07d8921726e1f23bb7" },
@@ -103,58 +115,63 @@
           "fecha": { "type": "string", "format": "date-time", "example": "2025-09-26T14:10:00Z" }
         }
       },
-      "ReviewCreate": {
+      "ResenaCreateBodyGET": {
         "type": "object",
         "required": ["id_pelicula", "calificacion"],
         "properties": {
-          "id_pelicula": { "type": "string", "description": "ObjectId de la película" },
+          "id_pelicula": { "type": "string" },
           "comentario": { "type": "string" },
           "calificacion": { "type": "number", "minimum": 0, "maximum": 5 }
         }
       },
-      "ReviewCreateResponse": {
+      "ResenaEdit": {
         "type": "object",
         "properties": {
-          "message": { "type": "string", "example": "Reseña creada correctamente" },
-          "id": { "type": "string", "example": "68d53c07d8921726e1f23bb7" }
-        }
-      },
-      "ReviewListResponse": {
-        "type": "object",
-        "properties": {
-          "items": { "type": "array", "items": { "$ref": "#/components/schemas/Review" } },
-          "total": { "type": "integer", "example": 42 },
-          "page": { "type": "integer", "example": 1 },
-          "pageSize": { "type": "integer", "example": 20 }
-        }
-      },
-      "Error": {
-        "type": "object",
-        "properties": {
-          "error": { "type": "string", "example": "Mensaje de error" }
+          "comentario": { "type": "string" },
+          "calificacion": { "type": "number", "minimum": 0, "maximum": 5 }
         }
       }
     }
   },
   "paths": {
+    "/api/health": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Health check",
+        "responses": {
+          "200": { "description": "Servicio OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/HealthOk" } } } }
+        }
+      }
+    },
+
+    "/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Registrar usuario",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RegisterInput" } } }
+        },
+        "responses": {
+          "201": { "description": "Usuario creado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } },
+          "409": { "description": "Usuario ya existe", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "400": { "description": "Datos inválidos", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "500": { "description": "Error interno", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
     "/auth/login": {
       "post": {
         "tags": ["Auth"],
-        "summary": "Login y emisión de token JWT",
+        "summary": "Login y emisión de JWT",
         "requestBody": {
           "required": true,
-          "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/AuthLogin" } }
-          }
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/LoginInput" } } }
         },
         "responses": {
-          "200": {
-            "description": "Token emitido",
-            "content": {
-              "application/json": { "schema": { "$ref": "#/components/schemas/AuthLoginResponse" } }
-            }
-          },
-          "401": { "description": "Credenciales inválidas", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+          "200": { "description": "Token emitido", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthToken" } } } },
+          "401": { "description": "Credenciales inválidas", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "404": { "description": "Usuario no encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -164,10 +181,7 @@
         "tags": ["Movies"],
         "summary": "Listar todas las películas",
         "responses": {
-          "200": {
-            "description": "Listado de películas",
-            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Movie" } } } }
-          }
+          "200": { "description": "Lista de películas", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Movie" } } } } }
         }
       }
     },
@@ -179,22 +193,16 @@
           { "name": "genre", "in": "path", "required": true, "schema": { "type": "string" } }
         ],
         "responses": {
-          "200": {
-            "description": "Listado filtrado",
-            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Movie" } } } }
-          }
+          "200": { "description": "Listado filtrado", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Movie" } } } } }
         }
       }
     },
     "/movies/pel-pop": {
       "get": {
         "tags": ["Movies"],
-        "summary": "Listar películas por popularidad (desc)",
+        "summary": "Películas ordenadas por popularidad (desc)",
         "responses": {
-          "200": {
-            "description": "Listado ordenado",
-            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Movie" } } } }
-          }
+          "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Movie" } } } } }
         }
       }
     },
@@ -205,12 +213,13 @@
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MovieCreate" } } }
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MovieInput" } } }
         },
         "responses": {
           "201": { "description": "Película creada", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Movie" } } } },
           "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
-          "403": { "description": "No autorizado (admin requerido)", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+          "403": { "description": "No autorizado (admin requerido)", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "400": { "description": "Datos inválidos", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -224,11 +233,10 @@
         ],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MovieUpdate" } } }
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MovieInput" } } }
         },
         "responses": {
           "200": { "description": "Película actualizada", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Movie" } } } },
-          "204": { "description": "Actualizada sin contenido" },
           "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
           "403": { "description": "No autorizado (admin requerido)", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
           "404": { "description": "No encontrada", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
@@ -252,18 +260,6 @@
       }
     },
 
-    "/users/all-users": {
-      "get": {
-        "tags": ["Users"],
-        "summary": "Listar todos los usuarios (admin)",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "Listado de usuarios", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/User" } } } } },
-          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
-          "403": { "description": "No autorizado (admin)" , "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
-        }
-      }
-    },
     "/users/search-user/{id}": {
       "get": {
         "tags": ["Users"],
@@ -294,7 +290,6 @@
         },
         "responses": {
           "200": { "description": "Usuario actualizado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } },
-          "204": { "description": "Actualizado sin contenido" },
           "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
           "403": { "description": "Sin permisos", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
           "404": { "description": "No encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
@@ -317,52 +312,84 @@
         }
       }
     },
-
-    "/reviews": {
-      "post": {
-        "tags": ["Reviews"],
-        "summary": "Crear reseña (requiere usuario autenticado)",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReviewCreate" } } }
-        },
-        "responses": {
-          "201": { "description": "Reseña creada", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReviewCreateResponse" } } } },
-          "400": { "description": "Datos inválidos", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
-          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
-          "409": { "description": "Ya existe reseña del usuario para esta película", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
-          "500": { "description": "Error interno", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
-        }
-      },
+    "/users/all-users": {
       "get": {
-        "tags": ["Reviews"],
-        "summary": "Listar reseñas (filtrar por película y/o usuario)",
-        "parameters": [
-          { "name": "id_pelicula", "in": "query", "schema": { "type": "string" } },
-          { "name": "id_usuario", "in": "query", "schema": { "type": "string" } },
-          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
-          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } }
-        ],
+        "tags": ["Users"],
+        "summary": "Listar todos los usuarios (admin)",
+        "security": [{ "bearerAuth": [] }],
         "responses": {
-          "200": { "description": "Listado de reseñas", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReviewListResponse" } } } },
-          "500": { "description": "Error interno", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+          "200": { "description": "Listado de usuarios", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/User" } } } } },
+          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "No autorizado (admin)", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
-    "/reviews/{id}": {
+
+    "/resenas/create": {
+      "get": {
+        "tags": ["Reseñas"],
+        "summary": "Crear reseña (usuario autenticado) — método GET leyendo body",
+        "description": "El endpoint actual usa GET y lee datos desde body. Swagger UI puede no enviar body en GET; se documenta así para coincidir con el código.",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ResenaCreateBodyGET" } } }
+        },
+        "responses": {
+          "200": { "description": "Reseña creada con éxito", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "reseña creada con exito" } } } } } }
+        }
+      }
+    },
+    "/resenas/list": {
+      "get": {
+        "tags": ["Reseñas"],
+        "summary": "Listar todas las reseñas (usuario autenticado)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Listado de reseñas", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Resena" } } } } }
+        }
+      }
+    },
+    "/resenas/listbymovie/{id}": {
+      "get": {
+        "tags": ["Reseñas"],
+        "summary": "Listar reseñas por película",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "ID de la película" }
+        ],
+        "responses": {
+          "200": { "description": "Listado de reseñas por película", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Resena" } } } } }
+        }
+      }
+    },
+    "/resenas/edit/{id}": {
+      "post": {
+        "tags": ["Reseñas"],
+        "summary": "Editar reseña (usuario autenticado)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ResenaEdit" } } }
+        },
+        "responses": {
+          "200": { "description": "Reseña editada con éxito", "content": { "application/json": { "schema": { "type": "object", "properties": { "message": { "type": "string", "example": "reseña editada con exito" } } } } } }
+        }
+      }
+    },
+    "/resenas/delete/{id}": {
       "delete": {
-        "tags": ["Reviews"],
-        "summary": "Eliminar reseña (admin o autor)",
+        "tags": ["Reseñas"],
+        "summary": "Eliminar reseña (usuario autenticado)",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
         ],
         "responses": {
           "204": { "description": "Eliminada sin contenido" },
-          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
-          "403": { "description": "Sin permisos", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
-          "404": { "description": "No encontrada", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+          "404": { "description": "No encontrada", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" }, "examples": { "notFound": { "value": { "error": "Usuario no encontrado" } } } } } }
         }
       }
     }
