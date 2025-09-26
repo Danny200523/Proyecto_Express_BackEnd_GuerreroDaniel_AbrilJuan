@@ -43,7 +43,7 @@ routerUser.delete('/delete-user/:id',requireAdmin,(req,res,next)=>{
 routerUser.get('/all-users',requireAdmin,(req,res,next)=>{
     try {
         const result = user.getAll();
-        res.status(200).json(result)
+        res.status(200).json({result})
     } catch (error) {
         next(error)
     }
