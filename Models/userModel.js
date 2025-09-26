@@ -9,7 +9,7 @@ export class modelUser{
     }
     async findUserByUsuario(id){
         const db = await connect();
-        const result = await db.collection('USUARIOS').find({_id:id});
+        const result = await db.collection('USUARIOS').find({_id:id}).toArray();
         await disconnect()
         return result;
     }
