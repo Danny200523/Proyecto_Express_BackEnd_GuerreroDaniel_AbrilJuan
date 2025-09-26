@@ -1,5 +1,5 @@
 import {connect, disconnect} from '../utils/database.js'
-
+import { ObjectId } from 'mongodb';
 
 export class modelUser{
     constructor(usuario, contrasena){
@@ -9,7 +9,8 @@ export class modelUser{
     }
     async findUserByUsuario(id){
         const db = await connect();
-        const result = await db.collection('USUARIOS').find({_id:id}).toArray();
+        const result = await db.collection('USUARIOS').find({_id:new ObjectId(id)}).toArray();
+        console.log(result)
         await disconnect()
         return result;
     }

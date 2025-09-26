@@ -90,7 +90,7 @@ db.createCollection("USUARIOS", {
             properties: {
               _id: { bsonType: "objectId" },
               id_usuario: { bsonType: "objectId" },
-              id_reseña: { bsonType: "objectId" }, // si prefieres ASCII, usa "id_resena"
+              id_pelicula: { bsonType: "objectId" }, // si prefieres ASCII, usa "id_resena"
               like: { bsonType: "bool" },
               dislike: { bsonType: "bool" }
             }
