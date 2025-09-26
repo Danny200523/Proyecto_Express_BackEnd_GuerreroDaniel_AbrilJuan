@@ -1,6 +1,7 @@
 import express from "express"
 import dotenv from "dotenv"
 import routerAuth from "./auth/routes.js"
+import routerUser from "./Routes/userRoutes.js"
 import passport from "passport"
 import routerMovie from "./Routes/peliculaRoutes.js"
 import swaggerUi from 'swagger-ui-express';
@@ -16,6 +17,7 @@ app.use(passport.initialize());
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 app.use('/auth',routerAuth)
 app.use('/movies',routerMovie)
+app.use('/users',routerUser)
 
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
