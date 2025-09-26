@@ -1,32 +1,18 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Proyecto Express API",
-    "version": "1.0.1",
-    "description": "API de autenticación, usuarios y películas."
+    "title": "Proyecto Express – Backend Películas",
+    "version": "1.0.0",
+    "description": "API para autenticación, gestión de películas, usuarios y reseñas."
   },
   "servers": [
-    {
-      "url": "http://62.169.28.169"
-    }
+    { "url": "http://62.169.28.169" }
   ],
   "tags": [
-    {
-      "name": "Health",
-      "description": "Estado del servicio"
-    },
-    {
-      "name": "Auth",
-      "description": "Autenticación"
-    },
-    {
-      "name": "Users",
-      "description": "Gestión de usuarios"
-    },
-    {
-      "name": "Movies",
-      "description": "Gestión de películas"
-    }
+    { "name": "Auth", "description": "Autenticación y emisión de tokens" },
+    { "name": "Movies", "description": "Gestión y consulta de películas" },
+    { "name": "Users", "description": "Gestión de usuarios (endpoints de administración)" },
+    { "name": "Reviews", "description": "Gestión de reseñas de películas" }
   ],
   "components": {
     "securitySchemes": {
@@ -37,213 +23,178 @@
       }
     },
     "schemas": {
-      "ErrorResponse": {
+      "AuthLogin": {
         "type": "object",
+        "required": ["usuario", "contrasena"],
         "properties": {
-          "error": { "type": "string" }
+          "usuario": { "type": "string", "example": "dandan@test.com" },
+          "contrasena": { "type": "string", "example": "123456" }
         }
       },
-      "AuthToken": {
+      "AuthLoginResponse": {
         "type": "object",
         "properties": {
-          "token": { "type": "string" }
+          "token": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }
         }
       },
       "User": {
         "type": "object",
         "properties": {
-          "_id": { "type": "string" },
-          "usuario": { "type": "string" },
-          "admin": { "type": "boolean" }
+          "_id": { "type": "string", "example": "68d5674ef0a2b214812097b4" },
+          "usuario": { "type": "string", "example": "dandan@test.com" },
+          "admin": { "type": "boolean", "example": true }
         }
       },
-      "UserInput": {
+      "UserUpdate": {
         "type": "object",
-        "required": ["usuario", "contrasena"],
         "properties": {
-          "usuario": { "type": "string", "example": "dani@test.com" },
-          "contrasena": { "type": "string", "minLength": 8, "example": "MiPass123!" },
-          "admin": { "type": "boolean", "example": false }
-        }
-      },
-      "RegisterInput": {
-        "type": "object",
-        "required": ["usuario", "contrasena"],
-        "properties": {
-          "usuario": { "type": "string" },
-          "contrasena": { "type": "string" },
-          "admin": { "type": "boolean" }
-        }
-      },
-      "LoginInput": {
-        "type": "object",
-        "required": ["usuario", "contrasena"],
-        "properties": {
-          "usuario": { "type": "string" },
-          "contrasena": { "type": "string" }
+          "usuario": { "type": "string", "example": "nuevo@test.com" },
+          "contrasena": { "type": "string", "example": "Nueva#Clave!2025" }
         }
       },
       "Movie": {
         "type": "object",
         "properties": {
-          "_id": { "type": "string" },
-          "title": { "type": "string" },
-          "summary": { "type": "string" },
-          "year": { "type": "integer" },
-          "popularity": { "type": "number" },
-          "poster": { "type": "string" },
-          "backdrop": { "type": "string" },
-          "genres": {
-            "oneOf": [
-              { "type": "string" },
-              { "type": "array", "items": { "type": "string" } }
-            ]
-          }
+          "_id": { "type": "string", "example": "68d53c07d8921726e1f23bb6" },
+          "title": { "type": "string", "example": "Castle in the Sky" },
+          "summary": { "type": "string", "example": "Aventura fantástica..." },
+          "year": { "type": "integer", "example": 1986 },
+          "popularity": { "type": "integer", "example": 87 },
+          "poster": { "type": "string", "example": "https://image.tmdb.org/..." },
+          "backdrop": { "type": "string", "example": "https://image.tmdb.org/..." },
+          "genres": { "type": "string", "example": "animation, adventure" },
+          "rating": { "type": "number", "example": 4.4 },
+          "total_reviews": { "type": "integer", "example": 120 }
         }
       },
-      "MovieInput": {
+      "MovieCreate": {
         "type": "object",
-        "required": ["title", "summary", "year", "popularity", "poster", "backdrop", "genres"],
+        "required": ["title", "summary", "year"],
         "properties": {
           "title": { "type": "string" },
           "summary": { "type": "string" },
           "year": { "type": "integer" },
-          "popularity": { "type": "number" },
+          "popularity": { "type": "integer" },
           "poster": { "type": "string" },
           "backdrop": { "type": "string" },
-          "genres": {
-            "oneOf": [
-              { "type": "string" },
-              { "type": "array", "items": { "type": "string" } }
-            ]
-          }
+          "genres": { "type": "string" }
+        }
+      },
+      "MovieUpdate": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "summary": { "type": "string" },
+          "year": { "type": "integer" },
+          "popularity": { "type": "integer" },
+          "poster": { "type": "string" },
+          "backdrop": { "type": "string" },
+          "genres": { "type": "string" }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string", "example": "68d53c07d8921726e1f23bb7" },
+          "id_usuario": { "type": "string", "example": "68d5674ef0a2b214812097b4" },
+          "id_pelicula": { "type": "string", "example": "68d53c07d8921726e1f23bb6" },
+          "comentario": { "type": "string", "example": "Muy buena historia y fotografía." },
+          "calificacion": { "type": "number", "minimum": 0, "maximum": 5, "example": 4.5 },
+          "fecha": { "type": "string", "format": "date-time", "example": "2025-09-26T14:10:00Z" }
+        }
+      },
+      "ReviewCreate": {
+        "type": "object",
+        "required": ["id_pelicula", "calificacion"],
+        "properties": {
+          "id_pelicula": { "type": "string", "description": "ObjectId de la película" },
+          "comentario": { "type": "string" },
+          "calificacion": { "type": "number", "minimum": 0, "maximum": 5 }
+        }
+      },
+      "ReviewCreateResponse": {
+        "type": "object",
+        "properties": {
+          "message": { "type": "string", "example": "Reseña creada correctamente" },
+          "id": { "type": "string", "example": "68d53c07d8921726e1f23bb7" }
+        }
+      },
+      "ReviewListResponse": {
+        "type": "object",
+        "properties": {
+          "items": { "type": "array", "items": { "$ref": "#/components/schemas/Review" } },
+          "total": { "type": "integer", "example": 42 },
+          "page": { "type": "integer", "example": 1 },
+          "pageSize": { "type": "integer", "example": 20 }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string", "example": "Mensaje de error" }
         }
       }
     }
   },
   "paths": {
-    "/api/health": {
-      "get": {
-        "tags": ["Health"],
-        "summary": "Health check",
-        "responses": {
-          "200": {
-            "description": "Servicio OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": { "ok": { "type": "boolean" } }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth/register": {
-      "post": {
-        "tags": ["Auth"],
-        "summary": "Registrar usuario",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/RegisterInput" } }
-          }
-        },
-        "responses": {
-          "201": { "description": "Usuario creado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } },
-          "409": { "description": "Usuario ya existe", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
-          "400": { "description": "Datos inválidos", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
-        }
-      }
-    },
     "/auth/login": {
       "post": {
         "tags": ["Auth"],
-        "summary": "Login y emisión de JWT",
+        "summary": "Login y emisión de token JWT",
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/LoginInput" } }
+            "application/json": { "schema": { "$ref": "#/components/schemas/AuthLogin" } }
           }
         },
         "responses": {
-          "200": { "description": "Token emitido", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AuthToken" } } } },
-          "401": { "description": "Credenciales inválidas", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
-          "404": { "description": "Usuario no encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } }
-        }
-      }
-    },
-    "/users/search-user/{id}": {
-      "get": {
-        "tags": ["Users"],
-        "summary": "Buscar usuario por ID (admin)",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
-        ],
-        "responses": {
-          "200": { "description": "Usuario encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } },
-          "404": { "description": "Usuario no encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
-          "403": { "description": "No autorizado" }
-        }
-      }
-    },
-    "/users/update-user/{id}": {
-      "put": {
-        "tags": ["Users"],
-        "summary": "Actualizar usuario",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserInput" } } }
-        },
-        "responses": {
-          "200": { "description": "Usuario actualizado" },
-          "404": { "description": "Usuario no encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
-          "401": { "description": "No autenticado" }
-        }
-      }
-    },
-    "/users/delete-user/{id}": {
-      "delete": {
-        "tags": ["Users"],
-        "summary": "Eliminar usuario (admin)",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
-        ],
-        "responses": {
-          "204": { "description": "Usuario eliminado (sin contenido)" },
-          "404": { "description": "Usuario no encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorResponse" } } } },
-          "403": { "description": "No autorizado" }
-        }
-      }
-    },
-    "/users/all-users": {
-      "get": {
-        "tags": ["Users"],
-        "summary": "Listar todos los usuarios (admin)",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
           "200": {
-            "description": "Lista de usuarios",
-            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/User" } } } }
+            "description": "Token emitido",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/AuthLoginResponse" } }
+            }
           },
-          "403": { "description": "No autorizado" }
+          "401": { "description": "Credenciales inválidas", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
+
     "/movies/all-Pel": {
       "get": {
         "tags": ["Movies"],
-        "summary": "Listar películas",
+        "summary": "Listar todas las películas",
         "responses": {
-          "200": { "description": "Lista de películas", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Movie" } } } } }
+          "200": {
+            "description": "Listado de películas",
+            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Movie" } } } }
+          }
+        }
+      }
+    },
+    "/movies/genre-Pel/{genre}": {
+      "get": {
+        "tags": ["Movies"],
+        "summary": "Listar películas por género",
+        "parameters": [
+          { "name": "genre", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listado filtrado",
+            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Movie" } } } }
+          }
+        }
+      }
+    },
+    "/movies/pel-pop": {
+      "get": {
+        "tags": ["Movies"],
+        "summary": "Listar películas por popularidad (desc)",
+        "responses": {
+          "200": {
+            "description": "Listado ordenado",
+            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Movie" } } } }
+          }
         }
       }
     },
@@ -254,13 +205,12 @@
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MovieInput" } } }
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MovieCreate" } } }
         },
         "responses": {
           "201": { "description": "Película creada", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Movie" } } } },
-          "401": { "description": "No autenticado" },
-          "403": { "description": "No autorizado (admin requerido)" },
-          "400": { "description": "Datos inválidos" }
+          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "No autorizado (admin requerido)", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -274,13 +224,14 @@
         ],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MovieInput" } } }
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MovieUpdate" } } }
         },
         "responses": {
-          "200": { "description": "Película actualizada" },
-          "401": { "description": "No autenticado" },
-          "403": { "description": "No autorizado (admin requerido)" },
-          "404": { "description": "No encontrada" }
+          "200": { "description": "Película actualizada", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Movie" } } } },
+          "204": { "description": "Actualizada sin contenido" },
+          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "No autorizado (admin requerido)", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "404": { "description": "No encontrada", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
@@ -293,22 +244,125 @@
           { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
         ],
         "responses": {
-          "204": { "description": "Eliminada (sin contenido)" },
-          "401": { "description": "No autenticado" },
-          "403": { "description": "No autorizado (admin requerido)" },
-          "404": { "description": "No encontrada" }
+          "204": { "description": "Eliminada sin contenido" },
+          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "No autorizado (admin requerido)", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "404": { "description": "No encontrada", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     },
-    "/movies/pel-popu": {
+
+    "/users/all-users": {
       "get": {
-        "tags": ["Movies"],
-        "summary": "Películas ordenadas por popularidad (desc)",
+        "tags": ["Users"],
+        "summary": "Listar todos los usuarios (admin)",
+        "security": [{ "bearerAuth": [] }],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Movie" } } } }
-          }
+          "200": { "description": "Listado de usuarios", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/User" } } } } },
+          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "No autorizado (admin)" , "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/users/search-user/{id}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Buscar usuario por ID (admin)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Usuario encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } },
+          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "No autorizado (admin)", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "404": { "description": "No encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/users/update-user/{id}": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Actualizar usuario (propio o admin)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserUpdate" } } }
+        },
+        "responses": {
+          "200": { "description": "Usuario actualizado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/User" } } } },
+          "204": { "description": "Actualizado sin contenido" },
+          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Sin permisos", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "404": { "description": "No encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/users/delete-user/{id}": {
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Eliminar usuario (admin)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "204": { "description": "Eliminado sin contenido" },
+          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "No autorizado (admin)", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "404": { "description": "No encontrado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+
+    "/reviews": {
+      "post": {
+        "tags": ["Reviews"],
+        "summary": "Crear reseña (requiere usuario autenticado)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReviewCreate" } } }
+        },
+        "responses": {
+          "201": { "description": "Reseña creada", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReviewCreateResponse" } } } },
+          "400": { "description": "Datos inválidos", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "409": { "description": "Ya existe reseña del usuario para esta película", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "500": { "description": "Error interno", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      },
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Listar reseñas (filtrar por película y/o usuario)",
+        "parameters": [
+          { "name": "id_pelicula", "in": "query", "schema": { "type": "string" } },
+          { "name": "id_usuario", "in": "query", "schema": { "type": "string" } },
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 } },
+          { "name": "pageSize", "in": "query", "schema": { "type": "integer", "default": 20 } }
+        ],
+        "responses": {
+          "200": { "description": "Listado de reseñas", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReviewListResponse" } } } },
+          "500": { "description": "Error interno", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    },
+    "/reviews/{id}": {
+      "delete": {
+        "tags": ["Reviews"],
+        "summary": "Eliminar reseña (admin o autor)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "204": { "description": "Eliminada sin contenido" },
+          "401": { "description": "No autenticado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "403": { "description": "Sin permisos", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } },
+          "404": { "description": "No encontrada", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
         }
       }
     }
