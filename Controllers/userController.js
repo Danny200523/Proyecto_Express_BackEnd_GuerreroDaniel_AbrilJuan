@@ -1,4 +1,4 @@
-import {modelUser} from '../Models/userModel'
+import {modelUser} from '../Models/userModel.js'
 
 const user = new modelUser();
 
