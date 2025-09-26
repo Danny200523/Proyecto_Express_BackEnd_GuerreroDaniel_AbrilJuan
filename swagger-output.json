@@ -3,7 +3,7 @@
   "info": {
     "title": "Proyecto Express – API Películas",
     "version": "1.0.0",
-    "description": "API para autenticación, gestión de películas, usuarios y reseñas."
+    "description": "API para autenticación, gestión de películas, usuarios, reseñas y reacciones."
   },
   "servers": [
     { "url": "http://62.169.28.169" }
@@ -13,7 +13,8 @@
     { "name": "Auth", "description": "Autenticación y emisión de tokens" },
     { "name": "Movies", "description": "Gestión y consulta de películas" },
     { "name": "Users", "description": "Gestión de usuarios" },
-    { "name": "Reseñas", "description": "Rutas de reseñas (crear, listar, editar, eliminar)" }
+    { "name": "Reseñas", "description": "Rutas de reseñas (crear, listar, editar, eliminar)" },
+    { "name": "Reacciones", "description": "Likes/Dislikes de películas" }
   ],
   "components": {
     "securitySchemes": {
@@ -129,6 +130,45 @@
         "properties": {
           "comentario": { "type": "string" },
           "calificacion": { "type": "number", "minimum": 0, "maximum": 5 }
+        }
+      },
+      "Reaccion": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string", "example": "68d53c07d8921726e1f23bb8" },
+          "id_usuario": { "type": "string", "example": "68d5674ef0a2b214812097b4" },
+          "id_pelicula": { "type": "string", "example": "68d53c07d8921726e1f23bb6" },
+          "like": { "type": "boolean", "example": true },
+          "dislike": { "type": "boolean", "example": false }
+        }
+      },
+      "ReaccionCreate": {
+        "type": "object",
+        "required": ["id_usuario", "id_pelicula"],
+        "properties": {
+          "id_usuario": { "type": "string" },
+          "id_pelicula": { "type": "string" },
+          "like": { "type": "boolean" },
+          "dislike": { "type": "boolean" }
+        }
+      },
+      "ReaccionUpdate": {
+        "type": "object",
+        "properties": {
+          "id_usuario": { "type": "string" },
+          "id_pelicula": { "type": "string" },
+          "like": { "type": "boolean" },
+          "dislike": { "type": "boolean" }
+        }
+      },
+      "MongoWriteResult": {
+        "type": "object",
+        "properties": {
+          "acknowledged": { "type": "boolean", "example": true },
+          "insertedId": { "type": "string", "nullable": true, "example": "68d53c07d8921726e1f23bb8" },
+          "matchedCount": { "type": "integer", "nullable": true, "example": 1 },
+          "modifiedCount": { "type": "integer", "nullable": true, "example": 1 },
+          "deletedCount": { "type": "integer", "nullable": true, "example": 1 }
         }
       }
     }
@@ -390,6 +430,71 @@
         "responses": {
           "204": { "description": "Eliminada sin contenido" },
           "404": { "description": "No encontrada", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" }, "examples": { "notFound": { "value": { "error": "Usuario no encontrado" } } } } } }
+        }
+      }
+    },
+
+    "/reacciones/create": {
+      "post": {
+        "tags": ["Reacciones"],
+        "summary": "Crear reacción (like/dislike)",
+        "description": "Crea un documento en REACCIONES con id_usuario, id_pelicula, like y/o dislike.",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReaccionCreate" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "Resultado de inserción",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MongoWriteResult" } } }
+          }
+        }
+      }
+    },
+    "/reacciones/list": {
+      "get": {
+        "tags": ["Reacciones"],
+        "summary": "Listar reacciones",
+        "responses": {
+          "200": {
+            "description": "Array de reacciones",
+            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Reaccion" } } } }
+          }
+        }
+      }
+    },
+    "/reacciones/edit/{id}": {
+      "put": {
+        "tags": ["Reacciones"],
+        "summary": "Actualizar reacción por ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ReaccionUpdate" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "Resultado de la actualización",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MongoWriteResult" } } }
+          }
+        }
+      }
+    },
+    "/reacciones/delete/{id}": {
+      "delete": {
+        "tags": ["Reacciones"],
+        "summary": "Eliminar reacción por ID (admin)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado de la eliminación",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MongoWriteResult" } } }
+          }
         }
       }
     }

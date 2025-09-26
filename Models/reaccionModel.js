@@ -7,7 +7,7 @@ export class reaccion{
         this.like=like;
         this.dislike=dislike;
     }
-
+//93728
     async create(req){
         const db = await connect()
         const newReaccion = {
