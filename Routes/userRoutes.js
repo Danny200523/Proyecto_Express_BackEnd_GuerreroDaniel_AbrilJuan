@@ -4,7 +4,7 @@ import { getCurrentUser } from "../auth/deps.js";
 import { userController } from "../Controllers/userController.js";
 
 const user = new userController();
-routerUser = Router()
+const routerUser = Router()
 
 routerUser.get('/search-user/:id',requireAdmin,(req,res,next)=>{
     try {
