@@ -86,7 +86,7 @@ db.createCollection("USUARIOS", {
         {
           $jsonSchema: {
             bsonType: "object",
-            required: ["id_usuario", "id_reseña", "like", "dislike"],
+            required: ["id_usuario", "id_pelicula", "like", "dislike"],
             properties: {
               _id: { bsonType: "objectId" },
               id_usuario: { bsonType: "objectId" },

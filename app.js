@@ -6,6 +6,7 @@ import routerAuth from "./auth/routes.js"
 import routerUser from "./Routes/userRoutes.js"
 import routerMovie from "./Routes/peliculaRoutes.js"
 import routerResena from "./Routes/resenaRoutes.js"
+import routerReaccion from "./Routes/reaccionRoutes.js"
 import swaggerUi from 'swagger-ui-express';
 import swaggerFile from './swagger-output.json' with { type: 'json' };
 
@@ -31,6 +32,7 @@ app.use('/auth',routerAuth)
 app.use('/movies',routerMovie)
 app.use('/users',routerUser)
 app.use('/resenas',routerResena)
+app.use('./reacciones',routerReaccion)
 
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
