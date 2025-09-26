@@ -147,7 +147,7 @@
         "required": ["id_usuario", "id_pelicula"],
         "properties": {
           "id_usuario": { "type": "string" },
-          "id_pelicula": { "type": "string" },
+          "id_resena": { "type": "string" },
           "like": { "type": "boolean" },
           "dislike": { "type": "boolean" }
         }
@@ -156,7 +156,7 @@
         "type": "object",
         "properties": {
           "id_usuario": { "type": "string" },
-          "id_pelicula": { "type": "string" },
+          "id_resena": { "type": "string" },
           "like": { "type": "boolean" },
           "dislike": { "type": "boolean" }
         }

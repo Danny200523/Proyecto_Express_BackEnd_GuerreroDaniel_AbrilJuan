@@ -80,35 +80,35 @@ db.createCollection("USUARIOS", {
   db["RESENAS"].createIndex({ id_pelicula: 1, fecha: -1 });
   
 
-  db.createCollection("REACCIONES", {
-    validator: {
-      $and: [
-        {
-          $jsonSchema: {
-            bsonType: "object",
-            required: ["id_usuario", "id_pelicula", "like", "dislike"],
-            properties: {
-              _id: { bsonType: "objectId" },
-              id_usuario: { bsonType: "objectId" },
-              id_pelicula: { bsonType: "objectId" }, // si prefieres ASCII, usa "id_resena"
-              like: { bsonType: "bool" },
-              dislike: { bsonType: "bool" }
-            }
+db.createCollection("REACCIONES", {
+  validator: {
+    $and: [
+      {
+        $jsonSchema: {
+          bsonType: "object",
+          required: ["id_usuario", "id_pelicula", "like", "dislike"],
+          properties: {
+            _id: { bsonType: "objectId" },
+            id_usuario: { bsonType: "objectId" },
+            id_pelicula: { bsonType: "objectId" }, // si prefieres ASCII, usa "id_resena"
+            like: { bsonType: "bool" },
+            dislike: { bsonType: "bool" }
           }
-        },
-        // Regla: no permitir like && dislike simultáneamente
-        { $expr: { $not: { $and: ["$like", "$dislike"] } } }
-      ]
-    },
-    validationAction: "error",
-    validationLevel: "strict"
-  });
-  
-  // Un usuario solo puede reaccionar una vez por reseña
-  db["REACCIONES"].createIndex(
-    { id_usuario: 1, id_reseña: 1 },
-    { unique: true }
-  );
+        }
+      },
+      // Regla: no permitir like && dislike simultáneamente
+      { $expr: { $not: { $and: ["$like", "$dislike"] } } }
+    ]
+  },
+  validationAction: "error",
+  validationLevel: "strict"
+});
+
+// Un usuario solo puede reaccionar una vez por reseña
+db["REACCIONES"].createIndex(
+  { id_usuario: 1, id_reseña: 1 },
+  { unique: true }
+);
   
 
   
