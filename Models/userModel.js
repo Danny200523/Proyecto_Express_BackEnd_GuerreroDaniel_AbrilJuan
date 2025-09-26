@@ -1,4 +1,4 @@
-import {connect} from '../utils/database.js'
+import {connect,disconnect} from '../utils/database.js'
 
 
 export class modelUser{
@@ -7,10 +7,24 @@ export class modelUser{
         this.contrasena = contrasena;
         this.admin = this.admin
     }
-}
-
-class modelUserMet{
-    findUserByUsuario(req,res){
-        
+    async findUserByUsuario(id){
+        const db = await connect();
+        const result = db.collection('USUARIOS').findOne({_id:id});
+        return result;
+    }
+    async updateUser(id,usuario,contrasena){
+        const db = await connect();
+        const result = db.collection('USUARIOS').updateOne({_id:id},{$set:{usuario:usuario,contrasena:contrasena}});
+        return result;
+    }
+    async deleteUser(id){
+        const db = await connect();
+        const result = db.collection('USUARIOS').deleteOne({_id:id})
+        return result
+    }
+    async getAllusers(){
+        const db = connect();
+        const result = db.collection('USUARIOS').find().toArray();
+        return result
     }
 }

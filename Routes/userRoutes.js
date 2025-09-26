@@ -1,6 +1,52 @@
 import { Router } from "express";
 import { requireAdmin } from "../utils/adminRequire";
+import { getCurrentUser } from "../auth/deps";
+import { userController } from "../Controllers/userController";
 
+const user = new userController();
 routerUser = Router()
 
-routerUser.get('/all-users',)
+routerUser.get('/search-user/:id',requireAdmin,(req,res,next)=>{
+    try {
+        const result = user.getById(req.params.id);
+        if (!result) return res.status(404).json({ error: "Usuario no encontrado" });
+        res.status(200).json(result)
+    } catch (error) {
+        next(error)
+    }
+})
+
+routerUser.put('/update-user/:id',getCurrentUser,(req,res,next)=>{
+    try {
+        const result = user.update(req.params.id,req.body.usuario,req.body.contrasena);
+        if (result.modifiedCount === 0) {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+          }
+        res.status(200).json({message: "usuario actualizado"})
+    } catch (error) {
+        next(error)
+    }
+})
+
+routerUser.delete('/delete-user/:id',requireAdmin,(req,res,next)=>{
+    try {
+        const result = user.delete(req.params.id);
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+          }
+        res.status(204).json({message:"Usuario eliminado"})
+    } catch (error) {
+        next(error)
+    }
+})
+
+routerUser.get('/all-users',requireAdmin,(req,res,next)=>{
+    try {
+        const result = user.getAll();
+        res.status(200).json(result)
+    } catch (error) {
+        next(error)
+    }
+})
+
+export default routerUser;
