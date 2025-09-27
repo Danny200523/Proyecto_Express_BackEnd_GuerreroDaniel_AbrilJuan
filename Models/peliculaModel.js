@@ -1,5 +1,5 @@
 import { connect, disconnect } from "../utils/database.js";
-import { Int32, Double,objectId } from "mongodb";
+import { Int32, Double,ObjectId } from "mongodb";
 
 export class pelicula{
     constructor(title,summary,year,popularity,poster,backdrop,genres){
