@@ -16,7 +16,7 @@ export class modelUser{
     }
     async updateUser(id,usuario,contrasena){
         const db = await connect();
-        const result = await db.collection('USUARIOS').updateOne({_id:id},{$set:{usuario:usuario,contrasena:contrasena}});
+        const result = await db.collection('USUARIOS').updateOne({_id:new ObjectId(id)},{$set:{usuario:usuario,contrasena:contrasena}});
         await disconnect()
         return result;
     }
