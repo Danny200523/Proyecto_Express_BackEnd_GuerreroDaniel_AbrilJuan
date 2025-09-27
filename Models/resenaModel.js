@@ -17,7 +17,7 @@ export class resena{
             id_pelicula: new ObjectId(id_pelicula),
             comentario: comentario,
             calificacion: Number(calificacion),
-            date: new Date()
+            fecha: new Date()
         }
         console.log(newResena.date)
         console.log(newResena.id_usuario)
