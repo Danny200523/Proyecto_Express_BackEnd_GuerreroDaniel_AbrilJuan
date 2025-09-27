@@ -20,7 +20,8 @@ app.use(cors({
     origin: [
       "http://62.169.28.169",          // tu host donde ves Swagger
       "http://62.169.28.169/docs",     // si usas swagger-ui en /docs
-      "http://localhost:8080"          // si lo abres local
+      "http://localhost:3000",
+      "http://localhost:3000/docs"         // si lo abres local
     ],
     methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"],
     allowedHeaders: ["Content-Type","Authorization"],
