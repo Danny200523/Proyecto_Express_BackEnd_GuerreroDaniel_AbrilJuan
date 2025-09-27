@@ -15,13 +15,16 @@ export class pelicula{
     async createMovie(data){
         const db = await connect()
         const newMovie = {
-            title: data.title,
-            summary: data.summary,
-            year: new Int32(Number.parseInt(data.year)),
-            popularity: new Double(Number(data.popularity)),
-            poster: data.poster,
-            backdrop: data.backdrop,
-            genres: data.genres
+            title: String(data.title ?? "").trim(),
+            summary: String(data.summary ?? "").trim(),
+            year: new Int32(Number.parseInt(data.year, 10)),                 // int32
+            popularity: new Double(Number(data.popularity)),                 // double
+            poster: String(data.poster ?? "").trim(),
+            backdrop: String(data.backdrop ?? "").trim(),
+            // El validator SOLO acepta string. Si llega array -> lo convertimos a CSV.
+            genres: Array.isArray(data.genres)
+              ? data.genres.map(String).join(", ")
+              : String(data.genres ?? "").trim()
         }
         const result = await db.collection('PELICULAS').insertOne(newMovie)
         await disconnect()
