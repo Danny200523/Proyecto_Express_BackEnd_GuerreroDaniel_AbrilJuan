@@ -25,7 +25,7 @@ export class controllerMovie{
     }
 
     async updatePel(req,id,res){
-        const result = await mov.updateMovie(req,id,res)
+        const result = await mov.updateMovie(req,id)
         return result
     }
 

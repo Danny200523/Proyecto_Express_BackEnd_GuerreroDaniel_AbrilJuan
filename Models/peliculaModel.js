@@ -1,5 +1,5 @@
 import { connect, disconnect } from "../utils/database.js";
-import { Int32, Double } from "mongodb";
+import { Int32, Double,objectId } from "mongodb";
 
 export class pelicula{
     constructor(title,summary,year,popularity,poster,backdrop,genres){
@@ -46,7 +46,7 @@ export class pelicula{
         return result
     }
 
-    async updateMovie(req,id,res){
+    async updateMovie(req,id){
         const upData = {
             title: req.body.title,
             summary: req.body.summary,
@@ -57,7 +57,7 @@ export class pelicula{
             genres: req.body.genres
         }
         const db = await connect()
-        const result = await db.collection('PELICULAS').updateOne({_id:id},{$set:upData})
+        const result = await db.collection('PELICULAS').updateOne({_id:new ObjectId(id)},{$set:upData})
         await disconnect()
         return result
     }
