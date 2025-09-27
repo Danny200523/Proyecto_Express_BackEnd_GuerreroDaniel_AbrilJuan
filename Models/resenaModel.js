@@ -1,4 +1,5 @@
 import { connect,disconnect } from "../utils/database.js";
+import { ObjectId } from "mongodb";
 
 export class resena{
     constructor(id_usuario,id_pelicula,comentario,calificacion){
@@ -12,8 +13,8 @@ export class resena{
     async create(id_usuario,id_pelicula,comentario,calificacion){
         const db = await connect()
         const newResena = {
-            id_usuario: id_usuario,
-            id_pelicula: id_pelicula,
+            id_usuario: new ObjectId(id_usuario),
+            id_pelicula: new ObjectId(id_pelicula),
             comentario: comentario,
             calificacion: calificacion,
             date: new Date()
