@@ -50,7 +50,7 @@ routerMovie.delete('/delete-Pel/:id',requireAdmin,async (req,res,next)=>{
     }
 })
 
-routerMovie.get('/pel-popu',async (req,res,next)=>{
+routerMovie.get('/pel-pop',async (req,res,next)=>{
     try {
         const result = await pel.getMoviesP(req,res)
         return res.status(200).json(result)
