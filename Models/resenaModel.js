@@ -25,6 +25,7 @@ export class resena{
     async getAll(){
         const db = await connect()
         const result = await db.collection('RESENAS').find().toArray()
+        console.log(result)
         await disconnect()
         return result
     }

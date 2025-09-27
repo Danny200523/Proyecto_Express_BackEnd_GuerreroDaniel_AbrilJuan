@@ -20,7 +20,7 @@ routerResena.get("/create",getCurrentUser,async (req, res, next) => {
 
 routerResena.get("/list",getCurrentUser,async (req, res, next) => {
     try {
-        const result = resena.getAllResenas()
+        const result = await resena.getAllResenas()
         return res.status(200).json(result)
     } catch (error) {
         next(error)
