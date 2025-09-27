@@ -22,7 +22,7 @@ export class modelUser{
     }
     async deleteUser(id){
         const db = await connect();
-        const result = await db.collection('USUARIOS').deleteOne({_id:id})
+        const result = await db.collection('USUARIOS').deleteOne({_id:new ObjectId(id)})
         await disconnect()
         return result
     }
