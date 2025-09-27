@@ -34,7 +34,7 @@ routerMovie.get('/genre-Pel/:genre',async (req,res,next)=>{
 
 routerMovie.put('/update-Pel/:id',requireAdmin,async (req,res,next)=>{
     try {
-        const result = await pel.updatePel(req,id=req.params.id);
+        const result = await pel.updatePel(req.body,req.params.id);
         return res.status(200).json(result)
     } catch (error) {
         next(error)

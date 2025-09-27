@@ -49,13 +49,13 @@ export class pelicula{
     async updateMovie(req,id){
         const sid = id
         const upData = {
-            title: req.body.title,
-            summary: req.body.summary,
-            year: req.body.year,
-            popularity: req.body.popularity,
-            poster: req.body.poster,
-            backdrop: req.body.backdrop,
-            genres: req.body.genres
+            title: req.title,
+            summary: req.summary,
+            year: req.year,
+            popularity: req.popularity,
+            poster: req.poster,
+            backdrop: req.backdrop,
+            genres: req.genres
         }
         const db = await connect()
         const result = await db.collection('PELICULAS').updateOne({_id:new ObjectId(sid)},{$set:upData})
