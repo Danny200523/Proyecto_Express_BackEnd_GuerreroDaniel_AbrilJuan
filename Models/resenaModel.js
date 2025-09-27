@@ -18,7 +18,7 @@ export class resena{
             calificacion: calificacion,
             date: new Date()
         }
-        const result = db.collection('RESENAS').insertOne(newResena)
+        const result = await db.collection('RESENAS').insertOne(newResena);
         await disconnect()
         return result
     }
