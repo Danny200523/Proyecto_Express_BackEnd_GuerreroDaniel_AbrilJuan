@@ -17,7 +17,7 @@ export class pelicula{
             title: data.title,
             summary: data.summary,
             year: NUmberInt(data.year),
-            popularity: data.popularity,
+            popularity: NUmberInt(data.popularity),
             poster: data.poster,
             backdrop: data.backdrop,
             genres: data.genres
