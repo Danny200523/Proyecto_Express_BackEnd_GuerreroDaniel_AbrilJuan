@@ -5,7 +5,7 @@ const mov = new pelicula()
 export class controllerMovie{
     async createPel(req){
         console.log("payload tipos:", {
-            title: typeof req.title,
+            title: typeof(req.title),
             summary: typeof req.summary,
             year: req.year, yearType: typeof req.year,
             popularity: req.popularity, popType: typeof req.popularity,
