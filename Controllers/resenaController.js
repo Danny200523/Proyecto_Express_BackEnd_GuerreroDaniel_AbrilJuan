@@ -1,32 +1,30 @@
 import { resena } from "../Models/resenaModel.js";
 
+const resenaModel = new resena()
+
 export class resenaController{
-    constructor(){
-        this.resena = new resena()
-    }
-    
     async createResena(id_usuario,id_pelicula,comentario,calificacion){
-        const result = await this.resena.createResena(id_usuario,id_pelicula,comentario,calificacion)
+        const result = await resenaModel.createResena(id_usuario,id_pelicula,comentario,calificacion)
         return result
     }
 
     async getAllResenas(){
-        const result = await this.getAllResenas()
+        const result = await resenaModel.getAllResenas()
         return result
     }
 
     async getResenaByMovie(id){
-        const result = await this.resena.getResenaByMovie(id)
+        const result = await resenaModel.getResenaByMovie(id)
         return result
     }
 
     async updateResena(id,req){
-        const result = await this.resena.updateResena(id,req)
+        const result = await resenaModel.updateResena(id,req)
         return result
     }
 
     async deleteResena(id){
-        const result = await this.resena.deleteResena(id)
+        const result = await resenaModel.deleteResena(id)
         return result
     }
 }
