@@ -34,7 +34,7 @@ routerReaccion.put('./edit/:id', getCurrentUser ,async (req,res,next)=>{
     }
 })
 
-routerReaccion.delete('/delete/:id',requireAdmin,async (req,res,next)=>{
+routerReaccion.delete('/delete/:id', requireAdmin ,async (req,res,next)=>{
     try {
         const result = await reaccion.deleteReaccion(req.params.id)
         return res.status(200).json(result)

@@ -109,6 +109,3 @@ db["REACCIONES"].createIndex(
   { id_usuario: 1, id_reseña: 1 },
   { unique: true }
 );
-  
-
-  
