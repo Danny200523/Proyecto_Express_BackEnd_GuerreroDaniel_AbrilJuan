@@ -1,4 +1,5 @@
 import { connect, disconnect } from "../utils/database.js";
+import { Int32, Double } from "mongodb";
 
 export class pelicula{
     constructor(title,summary,year,popularity,poster,backdrop,genres){
@@ -16,8 +17,8 @@ export class pelicula{
         const newMovie = {
             title: data.title,
             summary: data.summary,
-            year: NUmberInt(data.year),
-            popularity: NUmberInt(data.popularity),
+            year: Int32(data.year),
+            popularity: Double(data.popularity),
             poster: data.poster,
             backdrop: data.backdrop,
             genres: data.genres
