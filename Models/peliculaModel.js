@@ -47,6 +47,7 @@ export class pelicula{
     }
 
     async updateMovie(req,id){
+        const sid = id
         const upData = {
             title: req.body.title,
             summary: req.body.summary,
@@ -57,7 +58,7 @@ export class pelicula{
             genres: req.body.genres
         }
         const db = await connect()
-        const result = await db.collection('PELICULAS').updateOne({_id:new ObjectId(id)},{$set:upData})
+        const result = await db.collection('PELICULAS').updateOne({_id:new ObjectId(sid)},{$set:upData})
         await disconnect()
         return result
     }
