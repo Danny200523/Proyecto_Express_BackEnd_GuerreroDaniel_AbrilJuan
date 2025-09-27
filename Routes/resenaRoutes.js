@@ -5,7 +5,7 @@ import { resenaController } from "../Controllers/resenaController.js";
 const resena = new resenaController()
 const routerResena = Router();
 
-routerResena.get("/create",getCurrentUser,async (req, res, next) => {
+routerResena.post("/create",getCurrentUser,async (req, res, next) => {
     try {
         const id_usuario = req.user.id
         const id_pelicula = req.body.id_pelicula

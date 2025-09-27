@@ -9,13 +9,13 @@ export class resena{
         this.date= new Date();
     }
 
-    async create(req){
+    async create(id_usuario,id_pelicula,comentario,calificacion){
         const db = await connect()
         const newResena = {
-            id_usuario: req.id_usuario,
-            id_pelicula: req.id_pelicula,
-            comentario: req.comentario,
-            calificacion: req.calificacion,
+            id_usuario: id_usuario,
+            id_pelicula: id_pelicula,
+            comentario: comentario,
+            calificacion: calificacion,
             date: new Date()
         }
         const result = db.collection('RESENAS').insertOne(newResena)
