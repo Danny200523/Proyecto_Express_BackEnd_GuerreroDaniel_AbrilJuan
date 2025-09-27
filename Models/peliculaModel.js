@@ -18,7 +18,7 @@ export class pelicula{
             title: data.title,
             summary: data.summary,
             year: new Int32(Number.parseInt(data.year)),
-            popularity: new Double(NUmber(data.popularity)),
+            popularity: new Double(Number(data.popularity)),
             poster: data.poster,
             backdrop: data.backdrop,
             genres: data.genres
