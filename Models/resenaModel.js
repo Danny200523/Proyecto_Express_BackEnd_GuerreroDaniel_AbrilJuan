@@ -19,12 +19,12 @@ export class resena{
             calificacion: Number(calificacion),
             date: new Date()
         }
-        const result = await db.collection('RESENAS').insertOne(newResena);
         console.log(newResena.date)
         console.log(newResena.id_usuario)
         console.log(newResena.id_pelicula)
         console.log(newResena.comentario)
         console.log(newResena.calificacion)
+        const result = await db.collection('RESENAS').insertOne(newResena);
         await disconnect()
         return result
     }
