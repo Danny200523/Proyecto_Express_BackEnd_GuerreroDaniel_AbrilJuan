@@ -17,8 +17,8 @@ export class pelicula{
         const newMovie = {
             title: data.title,
             summary: data.summary,
-            year: new Int32(data.year),
-            popularity: new Double(data.popularity),
+            year: new Int32(Number.parseInt(data.year)),
+            popularity: new Double(NUmber(data.popularity)),
             poster: data.poster,
             backdrop: data.backdrop,
             genres: data.genres
