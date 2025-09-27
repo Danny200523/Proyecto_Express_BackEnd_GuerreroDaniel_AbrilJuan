@@ -11,7 +11,7 @@ export class resenaController{
     }
 
     async getAllResenas(){
-        const result = await this.resena.getAllResenas()
+        const result = await resena.getAllResenas()
         return result
     }
 
