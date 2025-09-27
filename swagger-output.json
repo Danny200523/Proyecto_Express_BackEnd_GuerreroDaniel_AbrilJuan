@@ -366,7 +366,7 @@
     },
 
     "/resenas/create": {
-      "get": {
+      "post": {
         "tags": ["Reseñas"],
         "summary": "Crear reseña (usuario autenticado) — método GET leyendo body",
         "description": "El endpoint actual usa GET y lee datos desde body. Swagger UI puede no enviar body en GET; se documenta así para coincidir con el código.",
