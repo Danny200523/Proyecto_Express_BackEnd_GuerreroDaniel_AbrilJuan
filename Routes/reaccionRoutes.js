@@ -9,7 +9,7 @@ const routerReaccion = Router()
 
 routerReaccion.post('/create', getCurrentUser ,async (req,res,next)=>{
     try {
-        const result = await reaccion.createReaccion(req)
+        const result = await reaccion.createReaccion(req.body)
         return res.status(200).json(result)
     } catch (error) {
         next(error)

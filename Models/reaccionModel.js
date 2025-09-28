@@ -16,7 +16,7 @@ export class reaccion{
             like: req.like,
             dislike: req.dislike
         }
-        const result = db.collection('REACCIONES').insertOne(newReaccion)
+        const result = await db.collection('REACCIONES').insertOne(newReaccion)
         await disconnect()
         return result
     }
