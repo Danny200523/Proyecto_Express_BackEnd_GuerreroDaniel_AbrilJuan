@@ -43,7 +43,7 @@ export class resena{
             id_usuario: new ObjectId(req.id_usuario),
             id_pelicula: new ObjectId(req.id_pelicula),
             comentario: req.comentario,
-            calificacion: Number(req.calificacion),
+            calificacion: req.calificacion,
             date: new Date()
         }
         const result = await db.collection('RESENAS').updateOne({_id:new ObjectId(id)},{$set:upData})
