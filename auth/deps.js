@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
-import { connect } from '../utils/database.js';
+import { db } from '../utils/database.js';
 import { JWT_SECRET } from './config.js';
 
 // JWT Strategy options

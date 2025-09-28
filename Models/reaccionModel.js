@@ -1,4 +1,4 @@
-import { connect,disconnect } from "../utils/database.js";
+import { db } from "../utils/database.js";
 import { ObjectId } from "mongodb";
 
 export class reaccion{

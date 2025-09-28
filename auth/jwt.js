@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import {connect, disconnect} from '../utils/database.js';
+import { db } from '../utils/database.js';
 import dotenv from "dotenv";
 import { JWT_ALG, JWT_EXPIRE_STR} from './config.js';
 import bcrypt from 'bcrypt';
@@ -30,10 +30,8 @@ async function register(req,res) {
             try {
                 const hashedPassword = await bcrypt.hash(newUser.contrasena, 10);
                 newUser.contrasena = hashedPassword;
-                const db = await connect()
                 const user = await db.collection('USUARIOS').insertOne(newUser)
                 res.status(200).json({message: "Usuario creado correctamente",user})
-                disconnect();
             } catch (error) {
                 console.error('Hashing error:', error);
                 res.status(500).json({error: "Error al hashear la contraseña", details: error.message})
@@ -52,7 +50,6 @@ async function login(req,res) {
         contrasena: req.body.contrasena
     }
     if (userin.usuario && userin.contrasena) {
-        const db = await connect()
         const user = await db.collection('USUARIOS').findOne({usuario: userin.usuario})
         const isadmin = user.admin
         const isuser = user.usuario
