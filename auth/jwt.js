@@ -51,11 +51,11 @@ async function login(req,res) {
         usuario: req.body.usuario,
         contrasena: req.body.contrasena
     }
-    const isadmin = req.body.admin
-    console.log(isadmin)
     if (userin.usuario && userin.contrasena) {
         const db = await connect()
         const user = await db.collection('USUARIOS').findOne({usuario: userin.usuario})
+        const isadmin = user.admin
+        console.log(isadmin)
         if (user) {
             try {
                 const isMatch = await bcrypt.compare(userin.contrasena, user.contrasena);
