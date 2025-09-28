@@ -1,4 +1,5 @@
 import { connect,disconnect } from "../utils/database.js";
+import { ObjectId } from "mongodb";
 
 export class reaccion{
     constructor(id_usuario,id_resena,like,dislike){
@@ -11,8 +12,8 @@ export class reaccion{
     async create(req){
         const db = await connect()
         const newReaccion = {
-            id_usuario: req.id_usuario,
-            id_resena: req.id_resena,
+            id_usuario: new ObjectId(req.id_usuario),
+            id_resena: new ObjectId(req.id_resena),
             like: req.like,
             dislike: req.dislike
         }
