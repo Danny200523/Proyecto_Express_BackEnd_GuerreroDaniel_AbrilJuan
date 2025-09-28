@@ -63,4 +63,9 @@ export class pelicula{
         const result = await db.collection('PELICULAS').find().sort({popularity:-1}).toArray()
         return result
     }
+
+    async search(id){
+        const result = await db.collection('PELICULAS').find({_id:new ObjectId(id)})
+        return result;
+    }
 }

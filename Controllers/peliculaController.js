@@ -32,4 +32,9 @@ export class controllerMovie{
         const result = await mov.getMoviesPop(req,res)
         return result
     }
+
+    async searchPel(){
+        const result = await mov.search(id);
+        return result
+    }
 }
