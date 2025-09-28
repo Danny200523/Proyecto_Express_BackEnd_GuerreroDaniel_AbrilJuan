@@ -28,6 +28,7 @@ export class reaccion{
         await disconnect()
         return result
     }
+    
 
     async update(id,req){
         const db = await connect()
