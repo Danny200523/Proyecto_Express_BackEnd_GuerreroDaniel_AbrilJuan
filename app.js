@@ -8,6 +8,7 @@ import routerUser from "./Routes/userRoutes.js"
 import routerMovie from "./Routes/peliculaRoutes.js"
 import routerResena from "./Routes/resenaRoutes.js"
 import routerReaccion from "./Routes/reaccionRoutes.js"
+import rateLimit from "express-rate-limit";
 import swaggerUi from 'swagger-ui-express';
 import swaggerFile from './swagger-output.json' with { type: 'json' };
 
@@ -22,6 +23,16 @@ async function startServer() {
 
   app.use(express.json());
   app.use(passport.initialize());
+
+  const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 300,
+    standardHeaders: "draft-7",
+    legacyHeaders: false,
+    message: { ok: false, error: "Too many requests" },
+  });
+  app.use(apiLimiter);
+
 
   app.use(cors({
       origin: [
