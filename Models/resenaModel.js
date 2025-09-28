@@ -40,6 +40,8 @@ export class resena{
     async update(id,req){
         const db = await connect()
         const upData = {
+            id_usuario: new ObjectId(id_usuario),
+            id_pelicula: new ObjectId(id_pelicula),
             comentario: req.comentario,
             calificacion: Number(req.calificacion),
             date: new Date()
