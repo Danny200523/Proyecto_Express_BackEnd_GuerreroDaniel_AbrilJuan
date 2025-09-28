@@ -332,8 +332,7 @@
         "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
       }
     }
-  },
-
+  }},
     "/users/search-user/{id}": {
       "get": {
         "tags": ["Users"],
@@ -523,4 +522,4 @@
       }
     }
   }
-}}
+}
