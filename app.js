@@ -18,8 +18,8 @@ app.use(passport.initialize());
 
 app.use(cors({
     origin: [
-      "http://62.169.28.169",          // tu host donde ves Swagger
-      "http://62.169.28.169/docs",     // si usas swagger-ui en /docs
+      "http://62.169.28.169",
+      "http://62.169.28.169/docs",
       "http://localhost:3000",
       "http://0.0.0.0",
       "http://127.0.0.1:5500",
