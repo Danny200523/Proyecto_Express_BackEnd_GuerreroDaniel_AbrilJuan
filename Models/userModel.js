@@ -9,7 +9,6 @@ export class modelUser{
     }
     async findUserByUsuario(id){
         const result = await db.collection('USUARIOS').find({_id:new ObjectId(id)}).toArray();
-        console.log(result)
         return result;
     }
     async updateUser(id,usuario,contrasena){
@@ -22,7 +21,6 @@ export class modelUser{
     }
     async getAllusers(){
         const result = await db.collection('USUARIOS').find().toArray();
-        console.log(result)
         return result
     }
 }

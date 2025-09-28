@@ -4,12 +4,6 @@ const mov = new pelicula()
 
 export class controllerMovie{
     async createPel(req){
-        console.log(req)
-        console.log("payload tipos:"+req.title)
-        console.log("payload tipos:")
-        console.log("payload tipos:")
-        console.log("payload tipos:")
-        console.log("payload tipos:")
         const result = await mov.createMovie(req)
         return result
     }

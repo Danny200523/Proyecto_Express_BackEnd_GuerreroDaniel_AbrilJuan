@@ -31,7 +31,6 @@ export class pelicula{
 
     async getAllMovies(req, res){
         const result = await db.collection('PELICULAS').find().toArray()
-        console.log(result)
         return result
     }
 
