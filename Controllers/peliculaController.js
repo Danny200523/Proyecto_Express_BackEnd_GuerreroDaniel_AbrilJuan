@@ -33,7 +33,7 @@ export class controllerMovie{
         return result
     }
 
-    async searchPel(){
+    async searchPel(id){
         const result = await mov.search(id);
         return result
     }
