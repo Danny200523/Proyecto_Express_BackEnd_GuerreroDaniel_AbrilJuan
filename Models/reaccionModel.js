@@ -28,7 +28,7 @@ export class reaccion{
         await disconnect()
         return result
     }
-    
+
 
     async update(id,req){
         const db = await connect()
@@ -45,7 +45,7 @@ export class reaccion{
 
     async delete(id){
         const db = await connect()
-        const result = await db.collection('REACCIONES').deleteOne({_id:id})
+        const result = await db.collection('REACCIONES').deleteOne({_id:new ObjectId(id)})
         await disconnect()
         return result
     }
