@@ -299,6 +299,40 @@
         }
       }
     },
+    "/movies/search/{id}": {
+  "get": {
+    "tags": ["Movies"],
+    "summary": "Buscar película por ID",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+    ],
+    "responses": {
+      "200": {
+        "description": "OK",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Movie" } } }
+      },
+      "400": {
+        "description": "ID inválido",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "401": {
+        "description": "No autenticado",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "403": {
+        "description": "No autorizado",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "404": {
+        "description": "No encontrada",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      },
+      "500": {
+        "description": "Error del servidor",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+      }
+    }
+  },
 
     "/users/search-user/{id}": {
       "get": {
