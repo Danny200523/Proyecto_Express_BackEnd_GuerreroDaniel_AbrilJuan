@@ -65,7 +65,7 @@ export class pelicula{
     }
 
     async search(id){
-        const result = await db.collection('PELICULAS').find({_id:new ObjectId(id)})
+        const result = await db.collection('PELICULAS').find({_id:new ObjectId(id)}).toArray();
         return result;
     }
 }
