@@ -55,7 +55,7 @@ export class pelicula{
     }
 
     async deleteMovie(id){
-        const result = await db.collection('PELICULAS').deleteOne({_id:id})
+        const result = await db.collection('PELICULAS').deleteOne({_id:new ObjectId(id)})
         return result
     }
 
