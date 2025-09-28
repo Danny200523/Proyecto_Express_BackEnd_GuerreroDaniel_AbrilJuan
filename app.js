@@ -25,19 +25,6 @@ async function startServer() {
   app.use(express.json());
   app.use(passport.initialize());
 
-  const validate = (rules) => [
-    ...rules,
-    (req, res, next) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res
-          .status(400)
-          .json({ ok: false, errors: errors.array({ onlyFirstError: true }) });
-      }
-      next();
-    },
-  ];
-
   const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 300,
@@ -89,4 +76,4 @@ async function startServer() {
 
 startServer().catch(console.error);
 
-export default validate
+

@@ -1,28 +1,13 @@
 import {Router} from "express";
 import {requireAdmin} from "../utils/adminRequire.js"
 import {controllerMovie} from "../Controllers/peliculaController.js"
-import { body } from "express-validator";
-import { validate } from "../app.js"
 
 
 const pel = new controllerMovie()
 
 const routerMovie = Router();
 
-routerMovie.post('/new-Pel',
-    validate([
-        body("title").trim().isLength({ min: 1, max: 200 }).withMessage("title requerido"),
-        body("summary").trim().isLength({ min: 1 }).withMessage("summary requerido"),
-        body("year").isInt({ min: 1888, max: 2100 }).toInt(),
-        body("popularity").isFloat({ min: 0 }).toFloat(),
-        body("poster").isURL().withMessage("poster URL inválida"),
-        body("backdrop").isURL().withMessage("backdrop URL inválida"),
-        // si 'genres' es string (como tu validator):
-        body("genres").isString().trim().isLength({ min: 1 }),
-        // si usas `title_norm` en DB, lo puedes calcular aquí:
-        body("title").customSanitizer(v => v?.trim() ?? ""),
-      ]),
-    requireAdmin,async (req,res,next)=>{
+routerMovie.post('/new-Pel',requireAdmin,async (req,res,next)=>{
     try {
         const result = await pel.createPel(req.body);
         return res.status(200).json(result)
