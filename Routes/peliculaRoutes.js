@@ -2,6 +2,7 @@ import {Router} from "express";
 import {requireAdmin} from "../utils/adminRequire.js"
 import {controllerMovie} from "../Controllers/peliculaController.js"
 import { body } from "express-validator";
+import { validate } from "../app.js"
 
 
 const pel = new controllerMovie()
