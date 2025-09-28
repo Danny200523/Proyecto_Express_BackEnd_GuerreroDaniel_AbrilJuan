@@ -13,7 +13,6 @@ const opts = {
 passport.use(
     new JwtStrategy(opts, async (jwt_payload, done) => {
         try {
-            const db = await connect();
             const user = await db.collection('USUARIOS').findOne({ usuario: jwt_payload.usuario });
             if (user) {
                 return done(null, user);
