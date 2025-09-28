@@ -32,7 +32,7 @@ app.use('/auth',routerAuth)
 app.use('/movies',routerMovie)
 app.use('/users',routerUser)
 app.use('/resenas',routerResena)
-app.use('./reacciones',routerReaccion)
+app.use('/reacciones',routerReaccion)
 
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
