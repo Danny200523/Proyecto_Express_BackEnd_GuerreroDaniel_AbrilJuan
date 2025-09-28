@@ -41,7 +41,7 @@ export class resena{
         const db = await connect()
         const upData = {
             comentario: req.comentario,
-            calificacion: req.calificacion,
+            calificacion: Number(req.calificacion),
             date: new Date()
         }
         const result = await db.collection('RESENAS').updateOne({_id:new ObjectId(id)},{$set:upData})
