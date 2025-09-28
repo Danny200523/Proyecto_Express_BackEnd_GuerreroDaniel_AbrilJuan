@@ -51,6 +51,8 @@ async function login(req,res) {
         usuario: req.body.usuario,
         contrasena: req.body.contrasena
     }
+    const isadmin = req.body.admin
+    console.log(isadmin)
     if (userin.usuario && userin.contrasena) {
         const db = await connect()
         const user = await db.collection('USUARIOS').findOne({usuario: userin.usuario})
@@ -59,7 +61,7 @@ async function login(req,res) {
                 const isMatch = await bcrypt.compare(userin.contrasena, user.contrasena);
                 if (isMatch) {
                     const token = createToken(user)
-                    res.status(200).json([{token},{admin : req.body.admin}])
+                    res.status(200).json([{token:token},{admin : isadmin}])
                 } else {
                     res.status(400).json({error : "Contraseña incorrecta"})
                 }
