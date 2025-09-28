@@ -9,6 +9,7 @@ import routerMovie from "./Routes/peliculaRoutes.js"
 import routerResena from "./Routes/resenaRoutes.js"
 import routerReaccion from "./Routes/reaccionRoutes.js"
 import rateLimit from "express-rate-limit";
+
 import swaggerUi from 'swagger-ui-express';
 import swaggerFile from './swagger-output.json' with { type: 'json' };
 
