@@ -59,7 +59,7 @@ async function login(req,res) {
                 const isMatch = await bcrypt.compare(userin.contrasena, user.contrasena);
                 if (isMatch) {
                     const token = createToken(user)
-                    res.status(200).json({token},{admin : req.body.admin})
+                    res.status(200).json([{token},{admin : req.body.admin}])
                 } else {
                     res.status(400).json({error : "Contraseña incorrecta"})
                 }
