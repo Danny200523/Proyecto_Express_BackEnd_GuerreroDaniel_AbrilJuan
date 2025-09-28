@@ -36,17 +36,15 @@ export class resena{
         await disconnect()
         return result
     }
-    
+
     async update(id,req){
         const db = await connect()
         const upData = {
-            id_usuario: req.id_usuario,
-            id_pelicula: req.id_pelicula,
             comentario: req.comentario,
             calificacion: req.calificacion,
             date: new Date()
         }
-        const result = await db.collection('RESENAS').updateOne({_id:id},{$set:upData})
+        const result = await db.collection('RESENAS').updateOne({_id:new ObjectId(id)},{$set:upData})
         await disconnect()
         return result
     }
