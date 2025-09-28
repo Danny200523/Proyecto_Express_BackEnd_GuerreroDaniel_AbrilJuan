@@ -52,7 +52,7 @@ export class resena{
     }
     async delete(id){
         const db = await connect()
-        const result = await db.collection('RESENAS').deleteOne({_id:id})
+        const result = await db.collection('RESENAS').deleteOne({_id:new ObjectId(id)})
         await disconnect()
         return result
     }
