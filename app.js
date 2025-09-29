@@ -37,12 +37,12 @@ async function startServer() {
 
   app.use(cors({
       origin: [
-        "http://62.169.28.169",
-        "http://62.169.28.169/docs",
-        "http://localhost:3000",
-        "http://0.0.0.0",
-        "http://127.0.0.1:5500",
-        "http://localhost:5500",
+        "https://62.169.28.169",
+        "https://62.169.28.169/docs",
+        "https://localhost:3000",
+        "https://0.0.0.0",
+        "https://127.0.0.1:5500",
+        "https://localhost:5500",
         "https://danny200523.github.io",
         "https://proyecto-express-front-end-guerrero.vercel.app"
       ],
