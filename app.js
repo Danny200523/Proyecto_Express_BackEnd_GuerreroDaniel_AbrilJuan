@@ -37,12 +37,12 @@ async function startServer() {
 
   app.use(cors({
       origin: [
-        "https://62.169.28.169",
-        "https://62.169.28.169/docs",
-        "https://localhost:3000",
-        "https://0.0.0.0",
-        "https://127.0.0.1:5500",
-        "https://127.0.0.1:5501"
+        "http://62.169.28.169",
+        "http://62.169.28.169/docs",
+        "http://localhost:3000",
+        "http://0.0.0.0",
+        "http://127.0.0.1:5500",
+        "http://127.0.0.1:5501"
       ],
       methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"],
       allowedHeaders: ["Content-Type","Authorization"],
