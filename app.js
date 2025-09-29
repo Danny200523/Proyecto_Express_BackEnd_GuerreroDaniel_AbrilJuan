@@ -42,7 +42,7 @@ async function startServer() {
         "https://localhost:3000",
         "https://0.0.0.0",
         "https://127.0.0.1:5500",
-        "https://localhost:5500"
+        "https://127.0.0.1:5501"
       ],
       methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"],
       allowedHeaders: ["Content-Type","Authorization"],
