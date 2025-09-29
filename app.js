@@ -27,7 +27,7 @@ async function startServer() {
 
   const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 300,
+    max: 2000,
     standardHeaders: "draft-7",
     legacyHeaders: false,
     message: { ok: false, error: "Too many requests" },
