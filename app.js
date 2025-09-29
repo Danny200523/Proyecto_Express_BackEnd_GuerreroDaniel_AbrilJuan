@@ -42,7 +42,9 @@ async function startServer() {
         "http://localhost:3000",
         "http://0.0.0.0",
         "http://127.0.0.1:5500",
-        "http://localhost:5500"
+        "http://localhost:5500",
+        "https://danny200523.github.io",
+        "https://proyecto-express-front-end-guerrero.vercel.app"
       ],
       methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"],
       allowedHeaders: ["Content-Type","Authorization"],
