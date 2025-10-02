@@ -34,44 +34,10 @@ db.createCollection("USUARIOS", {
           backdrop: { bsonType: "string" },
           // Acepta string o array de strings (>=1)
           genres: {
-            bsonType: "array",
-            items: {
-              bsonType: "string",
-              enum: [
-                "accion",
-                "action & adventure",
-                "animacion",
-                "aventura",
-                "belica",
-                "ciencia ficcion",
-                "comedia",
-                "crimen",
-                "documental",
-                "drama",
-                "familia",
-                "fantasia",
-                "historia",
-                "kids",
-                "misterio",
-                "musica",
-                "news",
-                "pelicula de tv",
-                "reality",
-                "romance",
-                "sci-fi & fantasy",
-                "soap",
-                "suspense",
-                "talk",
-                "terror",
-                "war & politics",
-                "western"
-              ]
-            },
-            uniqueItems: true,
-            minItems: 1
+            oneOf: [
+              { bsonType: "string", minLength: 1 },
+            ]
           }
-          
-          
         }
       }
     },
