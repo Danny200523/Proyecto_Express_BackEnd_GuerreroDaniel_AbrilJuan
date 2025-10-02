@@ -63,7 +63,7 @@ export class resena{
         })
         const rutaCompleta = path.join(process.cwd(), 'reportes', name + ".csv")
         await fs.mkdir(path.dirname(rutaCompleta), { recursive: true });
-        await fs.writeFile(rutaCompleta, contenido, 'utf8');
+        await fs.writeFile(rutaCompleta, dataToWrite, 'utf8');
     }
 }
 
