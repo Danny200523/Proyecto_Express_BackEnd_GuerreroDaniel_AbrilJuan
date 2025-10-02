@@ -1,6 +1,6 @@
 import { db } from "../utils/database.js";
 import { ObjectId } from "mongodb";
-import fs from 'fs'
+import fs from 'fs/promises'
 import path from 'path'
 
 export class resena{
@@ -51,15 +51,15 @@ export class resena{
 
     async exportData(id,){
         const name = "dataExportada"
-        let dataToWrite = 'nombreUser,calificacion,comentario,fecha'
-        const data = await db.collection('RESENAS').find({id_pelicula: new ObjectId(id)})
+        let dataToWrite = 'nombreUser,calificacion,comentario,fecha\n'
+        const data = await db.collection('RESENAS').find({id_pelicula: new ObjectId(id)}).toArray()
         await data.forEach(element => {
-            const usuario = db.collection('USUARIOS').find({_id:new ObjectId(data.id_usuario)})
+            const usuario = db.collection('USUARIOS').find({_id:new ObjectId(data.id_usuario)}).toArray()
             element.id_usuario = usuario.usuario
             delete element.id_pelicula
         });
         data.forEach(element => {
-            dataToWrite += `"${element.nombre}","${element.calificacion  || 0}","${element.comentario}",${element.fecha}\n`
+            dataToWrite += `"${element.usuario}","${element.calificacion  || 0}","${element.comentario}",${element.fecha}\n`
         })
         const rutaCompleta = path.join(process.cwd(), 'reportes', name + ".csv")
         await fs.mkdir(path.dirname(rutaCompleta), { recursive: true });
