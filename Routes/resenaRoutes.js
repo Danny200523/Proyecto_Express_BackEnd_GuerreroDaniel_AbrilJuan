@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getCurrentUser } from "../auth/deps.js";
+import { requireAdmin } from '../utils/adminRequire.js'
 import { resenaController } from "../Controllers/resenaController.js";
 
 const resena = new resenaController()
@@ -52,6 +53,15 @@ routerResena.delete("/delete/:id",getCurrentUser,async (req, res, next) => {
             return res.status(404).json({ error: "Usuario no encontrado" });
           }
           return res.status(204).json({message:"Usuario eliminado"})
+    } catch (error) {
+        next(error)
+    }
+})
+
+routerResena.get('/databypel/:id',requireAdmin,async (req,res,next)=>{
+    try {
+        const result = await resena.expdata(req.params.id)
+        return res.status(201).json({message:"CSV creado con exito"})
     } catch (error) {
         next(error)
     }

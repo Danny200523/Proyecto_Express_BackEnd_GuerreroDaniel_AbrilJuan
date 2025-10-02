@@ -27,4 +27,8 @@ export class resenaController{
         const result = await resenaModel.delete(id)
         return result
     }
+
+    async expdata(id){
+        const result = await resenaModel.exportData(id)
+    }
 }

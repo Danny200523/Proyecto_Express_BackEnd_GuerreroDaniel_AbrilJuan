@@ -1,5 +1,7 @@
 import { db } from "../utils/database.js";
 import { ObjectId } from "mongodb";
+import fs from 'fs'
+import path from 'path'
 
 export class resena{
     constructor(id_usuario,id_pelicula,comentario,calificacion){
@@ -46,4 +48,31 @@ export class resena{
         const result = await db.collection('RESENAS').deleteOne({_id:new ObjectId(id)})
         return result
     }
+
+    async exportData(id,){
+        const name = "dataExportada"
+        let dataToWrite = 'nombreUser,calificacion,comentario,fecha'
+        const data = await db.collection('RESENAS').find({id_pelicula: new ObjectId(id)})
+        await data.forEach(element => {
+            const usuario = db.collection('USUARIOS').find({_id:new ObjectId(data.id_usuario)})
+            element.id_usuario = usuario.usuario
+            delete element.id_pelicula
+        });
+        data.forEach(element => {
+            dataToWrite += `"${element.nombre}","${element.calificacion  || 0}","${element.comentario}",${element.fecha}\n`
+        })
+        const rutaCompleta = path.join(process.cwd(), 'reportes', name + ".csv")
+        await fs.mkdir(path.dirname(rutaCompleta), { recursive: true });
+        await fs.writeFile(rutaCompleta, contenido, 'utf8');
+    }
 }
+
+
+//{
+//     "_id": "68d721383d8ab44ed9fe6a61",
+//     "id_usuario": "68d71d793d8ab44ed9fe6912",
+//     "id_pelicula": "68d53c07d8921726e1f23ba9",
+//     "comentario": "Buena, pero el final pudo ser mejor.",
+//     "calificacion": 2,
+//     "fecha": "2025-09-23T00:00:00.000Z"
+//}
