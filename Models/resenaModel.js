@@ -49,17 +49,18 @@ export class resena{
         return result
     }
 
-    async exportData(id,){
+    async exportData(id){
         const name = "dataExportada"
         let dataToWrite = 'nombreUser,calificacion,comentario,fecha\n'
         const data = await db.collection('RESENAS').find({id_pelicula: new ObjectId(id)}).toArray()
-        await data.forEach(element => {
-            const usuario = db.collection('USUARIOS').find({_id:new ObjectId(data.id_usuario)}).toArray()
-            element.id_usuario = usuario.usuario
+        await data.forEach(async element => {
+            const usuario = await db.collection('USUARIOS').find({_id:new ObjectId(element.id_usuario)}).toArray()
+            element.id_usuario = usuario[0].usuario
             delete element.id_pelicula
+            console.log(data)
         });
         data.forEach(element => {
-            dataToWrite += `"${element.usuario}","${element.calificacion  || 0}","${element.comentario}",${element.fecha}\n`
+            dataToWrite += `"${element.id_usuario}","${element.calificacion  || 0}","${element.comentario}",${element.fecha}\n`
         })
         const rutaCompleta = path.join(process.cwd(), 'reportes', name + ".csv")
         await fs.mkdir(path.dirname(rutaCompleta), { recursive: true });
